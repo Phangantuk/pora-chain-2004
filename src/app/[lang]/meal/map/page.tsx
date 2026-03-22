@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { getT, isValidLang, type Lang } from '@/lib/i18n'
+import { getExtraT } from '@/lib/i18n/extra'
 import { REGIONS, formatUsd, getProgressPct } from '@/lib/meal/data'
 import { MealNav } from '@/components/meal/MealNav'
 
@@ -24,6 +25,7 @@ function needColor(score: number): string {
 export default function MapPage({ params }: { params: { lang: string } }) {
   const lang = isValidLang(params.lang) ? params.lang as Lang : 'en'
   const t = getT(lang)
+  const xt = getExtraT(lang)
   const m = t.meal
   const lp = (p: string) => `/${lang}${p}`
 
@@ -71,12 +73,12 @@ export default function MapPage({ params }: { params: { lang: string } }) {
           <div className="grid grid-cols-1 lg:grid-cols-2">
             {/* Copy */}
             <div className="px-8 py-10">
-              <p className="font-mono text-[10px] tracking-[0.14em] uppercase text-[#4ECAA0] mb-4">Future interaction model</p>
+              <p className="font-mono text-[10px] tracking-[0.14em] uppercase text-[#4ECAA0] mb-4">{xt.meal.mapFutureModelTag}</p>
               <h2 className="font-bold text-[clamp(20px,2.5vw,28px)] text-white mb-4 tracking-tight">
-                Select a region on the map. Support it directly.
+                {xt.meal.mapFutureModelTitle}
               </h2>
               <p className="text-[14px] text-white/45 font-light leading-relaxed mb-6">
-                The future MEAL interface will display food-need intensity by region. You'll zoom into an area, see the current deficit and active programs, and donate directly to that zone.
+                {xt.meal.mapFutureModelBody}
               </p>
               <ul className="flex flex-col gap-2.5 mb-7">
                 {[m.mapFeature1, m.mapFeature2, m.mapFeature3, m.mapFeature4].map(feat => (
@@ -126,11 +128,11 @@ export default function MapPage({ params }: { params: { lang: string } }) {
 
         {/* Need intensity legend */}
         <div className="flex flex-wrap gap-4 items-center">
-          <p className="font-mono text-[10px] tracking-[0.1em] uppercase text-white/25">Need intensity:</p>
+          <p className="font-mono text-[10px] tracking-[0.1em] uppercase text-white/25">{xt.meal.mapNeedIntensity}</p>
           {[
-            { color: '#F5C542', label: 'Critical (85–100%)', range: '85–100%' },
-            { color: '#E8855A', label: 'High (60–84%)',      range: '60–84%' },
-            { color: '#4ECAA0', label: 'Covered (<60%)',     range: '<60%' },
+            { color: '#F5C542', label: `${xt.meal.mapNeedCritical} (85-100%)` },
+            { color: '#E8855A', label: `${xt.meal.mapNeedHigh} (60-84%)` },
+            { color: '#4ECAA0', label: `${xt.meal.mapNeedCovered} (<60%)` },
           ].map(({ color, label }) => (
             <div key={label} className="flex items-center gap-2 font-mono text-[11px]" style={{ color }}>
               <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: color }} />
@@ -168,7 +170,7 @@ export default function MapPage({ params }: { params: { lang: string } }) {
                   {/* Need score */}
                   <div className="text-center shrink-0 w-16">
                     <p className="font-mono text-[11px] font-semibold" style={{ color: nc }}>{need}%</p>
-                    <p className="font-mono text-[9px] text-white/20">need</p>
+                    <p className="font-mono text-[9px] text-white/20">{xt.meal.mapNeedShort}</p>
                   </div>
                   <div className="text-right shrink-0">
                     <p className="font-mono text-[13px] text-white/70">{formatUsd(region.raisedUsd)}</p>

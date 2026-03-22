@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import { LogoMark } from '@/components/ui/LogoMark'
+import { isValidLang, type Lang } from '@/lib/i18n'
+import { getExtraT } from '@/lib/i18n/extra'
 
 export default function PortalLayout({
   children,
@@ -8,13 +10,15 @@ export default function PortalLayout({
   children: React.ReactNode
   params: { lang: string }
 }) {
+  const lang = isValidLang(params.lang) ? (params.lang as Lang) : 'en'
+  const xt = getExtraT(lang)
   const lp = (path: string) => `/${params.lang}${path}`
   const sidebarLinks = [
-    { label: 'Dashboard', href: lp('/portal/dashboard') },
-    { label: 'Validator', href: lp('/portal/validator') },
-    { label: 'Organization', href: lp('/portal/org') },
-    { label: 'MEAL Dashboard', href: lp('/meal/dashboard') },
-    { label: '← Back to Site', href: lp('/') },
+    { label: xt.portalLayout.dashboard, href: lp('/portal/dashboard') },
+    { label: xt.portalLayout.validator, href: lp('/portal/validator') },
+    { label: xt.portalLayout.organization, href: lp('/portal/org') },
+    { label: xt.portalLayout.mealDashboard, href: lp('/meal/dashboard') },
+    { label: `← ${xt.portalLayout.backToSite}`, href: lp('/') },
   ]
 
   return (
@@ -23,10 +27,10 @@ export default function PortalLayout({
         <div className="p-5 border-b border-white/[0.07]">
           <div className="flex items-center gap-2 mb-1">
             <LogoMark size={22} />
-            <span className="font-mono-pora text-[13px] font-medium">PORA Portal</span>
+            <span className="font-mono-pora text-[13px] font-medium">{xt.portalLayout.title}</span>
           </div>
           <p className="font-mono-pora text-[9px] text-ink-tertiary tracking-[0.1em] uppercase">
-            Ecosystem Access
+            {xt.portalLayout.subtitle}
           </p>
         </div>
         <nav className="p-4 flex flex-col gap-0.5">

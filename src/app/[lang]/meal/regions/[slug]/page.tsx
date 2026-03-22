@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getT, isValidLang, type Lang } from '@/lib/i18n'
+import { getExtraT } from '@/lib/i18n/extra'
 import { getRegionBySlug, REGIONS, MOCK_EVENTS, MOCK_DONATIONS, formatUsd, getProgressPct, formatDate, timeAgo } from '@/lib/meal/data'
 import { MealNav } from '@/components/meal/MealNav'
 
@@ -14,6 +15,7 @@ export default function RegionPage({ params }: { params: { lang: string; slug: s
   if (!region) notFound()
 
   const t   = getT(lang)
+  const xt  = getExtraT(lang)
   const m   = t.meal
   const lp  = (p: string) => `/${lang}${p}`
   const pct = getProgressPct(region)
@@ -34,7 +36,7 @@ export default function RegionPage({ params }: { params: { lang: string; slug: s
           <div className="flex items-center gap-2 font-mono text-[10px] text-white/20 mb-6">
             <Link href={lp('/meal')} className="hover:text-white/50 transition-colors">MEAL</Link>
             <span>/</span>
-            <Link href={lp('/meal/regions')} className="hover:text-white/50 transition-colors">Regions</Link>
+            <Link href={lp('/meal/regions')} className="hover:text-white/50 transition-colors">{m.navRegions}</Link>
             <span>/</span>
             <span style={{ color:`${statusColor}70` }}>{region.name}</span>
           </div>
@@ -69,7 +71,7 @@ export default function RegionPage({ params }: { params: { lang: string; slug: s
                 <div className="h-2 bg-white/[0.06] rounded-full overflow-hidden mb-2">
                   <div className="h-full rounded-full" style={{ width:`${pct}%`, backgroundColor:statusColor }} />
                 </div>
-                <p className="font-mono text-[11px] text-white/25 mb-5">{pct}% funded</p>
+                <p className="font-mono text-[11px] text-white/25 mb-5">{pct}% {xt.meal.fundedLabel}</p>
                 <div className="grid grid-cols-2 gap-3 mb-5 text-center">
                   <div className="bg-white/[0.03] rounded-xl py-3">
                     <p className="font-mono text-[18px] font-semibold text-white">{region.mealsServed.toLocaleString()}</p>
@@ -81,7 +83,7 @@ export default function RegionPage({ params }: { params: { lang: string; slug: s
                   </div>
                 </div>
                 <Link href={lp(`/meal/donate?region=${region.slug}`)} className="block w-full text-center font-semibold text-[14px] py-3 rounded-xl bg-[#E8855A] text-[#0D0805] hover:bg-[#f0966e] hover:shadow-[0_8px_24px_rgba(232,133,90,0.3)] transition-all duration-200">
-                  {m.donate} to this region
+                  {m.donate} {xt.meal.donateToRegion}
                 </Link>
               </div>
               <div className="bg-[#0C0C0E] border border-white/[0.07] rounded-xl px-5 py-4">
@@ -104,12 +106,12 @@ export default function RegionPage({ params }: { params: { lang: string; slug: s
                   <div className="flex items-start justify-between gap-3 mb-2">
                     <p className="text-[13px] text-white/70 leading-snug">{ev.description}</p>
                     <span className={`font-mono text-[10px] px-2 py-0.5 rounded-md shrink-0 ${ev.verified ? 'text-[#4ECAA0] bg-[#4ECAA0]/10 border border-[#4ECAA0]/20' : 'text-white/30 bg-white/[0.04] border border-white/[0.07]'}`}>
-                      {ev.verified ? '✓ verified' : 'pending'}
+                      {ev.verified ? m.verifiedLabel : m.pendingLabel}
                     </span>
                   </div>
                   <div className="flex items-center gap-3 font-mono text-[11px] text-white/25">
-                    <span>🍽 {ev.mealsCount} {m.meals.toLowerCase()}</span>
-                    <span>· {timeAgo(ev.date)}</span>
+                    <span className="inline-flex items-center gap-1.5"><MealGlyph />{ev.mealsCount} {m.meals.toLowerCase()}</span>
+                    <span>- {timeAgo(ev.date)}</span>
                   </div>
                 </div>
               ))}
@@ -125,7 +127,7 @@ export default function RegionPage({ params }: { params: { lang: string; slug: s
               {donations.map(d => (
                 <div key={d.id} className="bg-[#0C0C0E] border border-white/[0.06] rounded-xl px-5 py-4 flex items-center justify-between">
                   <div>
-                    <p className="text-[13px] text-white/70 mb-0.5">{d.donor || 'Anonymous'}</p>
+                    <p className="text-[13px] text-white/70 mb-0.5">{d.donor || xt.meal.anonymous}</p>
                     <p className="font-mono text-[10px] text-white/25">{formatDate(d.date)}</p>
                   </div>
                   <div className="text-right">
@@ -139,5 +141,13 @@ export default function RegionPage({ params }: { params: { lang: string; slug: s
         </div>
       </div>
     </div>
+  )
+}
+
+function MealGlyph() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
+      <path d="M2.6 3.2v7.6M5 3.2v7.6M9 3.2c0 1 .8 1.8 1.8 1.8.3 0 .6-.1.8-.2v6M11.6 3.2v1.4" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   )
 }

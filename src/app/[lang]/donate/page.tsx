@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
 import Link from 'next/link'
 import { getT, isValidLang, type Lang } from '@/lib/i18n'
+import { getExtraT } from '@/lib/i18n/extra'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const TRON_ADDRESS = 'TSF42qJpMtwb68SNnwAmB7rLrCwtnBk61V'
@@ -255,9 +256,10 @@ function CopyButton({ address, label, copied: copiedLabel }: {
 }
 
 // ── Wallet card ───────────────────────────────────────────────────────────────
-function WalletCard({ wallet, t }: {
+function WalletCard({ wallet, t, ui }: {
   wallet: { label: string; address: string; network: string; explorerUrl: string; icon: React.ReactNode; accent: string }
   t: ReturnType<typeof getT>
+  ui: ReturnType<typeof getExtraT>['donateUi']
 }) {
   const d = t.donate
   return (
@@ -304,7 +306,7 @@ function WalletCard({ wallet, t }: {
 
         {/* Address */}
         <div className="bg-black/30 rounded-xl p-4 mb-4 border border-white/[0.05]">
-          <p className="font-mono text-[11px] text-white/35 mb-1.5 tracking-[0.08em] uppercase">address</p>
+          <p className="font-mono text-[11px] text-white/35 mb-1.5 tracking-[0.08em] uppercase">{ui.addressLabel}</p>
           <p
             className="font-mono text-[13px] text-white/80 break-all leading-relaxed select-all"
             style={{ wordBreak: 'break-all' }}
@@ -325,7 +327,7 @@ function WalletCard({ wallet, t }: {
             <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
               <path d="M1.5 9.5L9.5 1.5M9.5 1.5H5M9.5 1.5v4.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
             </svg>
-            Explorer
+            {ui.explorerShort}
           </a>
         </div>
       </div>
@@ -445,6 +447,7 @@ function RefreshDot({ active }: { active: boolean }) {
 export default function DonatePage({ params }: { params: { lang: string } }) {
   const lang = isValidLang(params.lang) ? (params.lang as Lang) : 'en'
   const t    = getT(lang)
+  const xt   = getExtraT(lang)
   const d    = t.donate
   const lp   = (path: string) => `/${lang}${path}`
 
@@ -587,7 +590,7 @@ export default function DonatePage({ params }: { params: { lang: string } }) {
           <h2 className="text-[22px] font-bold text-white/90 mb-8 tracking-tight">{d.walletsTitle}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {wallets.map(w => (
-              <WalletCard key={w.address} wallet={w} t={t} />
+              <WalletCard key={w.address} wallet={w} t={t} ui={xt.donateUi} />
             ))}
           </div>
         </section>
@@ -682,16 +685,16 @@ export default function DonatePage({ params }: { params: { lang: string } }) {
             {!txLoading && !txError && allTxs.length > 0 && (
               <div className="flex flex-wrap gap-3 items-center justify-between px-4 py-3 border-t border-white/[0.05] bg-white/[0.015]">
                 <span className="font-mono text-[10px] text-white/20">
-                  {allTxs.length} {allTxs.length === 1 ? 'transaction' : 'transactions'}
+                  {allTxs.length} {allTxs.length === 1 ? xt.donateUi.txSingular : xt.donateUi.txPlural}
                 </span>
                 <div className="flex gap-4">
                   <a href={`https://tronscan.org/#/address/${TRON_ADDRESS}`} target="_blank" rel="noopener noreferrer"
                     className="font-mono text-[10px] text-[#E8855A]/50 hover:text-[#E8855A] transition-colors">
-                    Tronscan →
+                    {xt.donateUi.tronExplorer} →
                   </a>
                   <a href={`https://etherscan.io/address/${ETH_ADDRESS}`} target="_blank" rel="noopener noreferrer"
                     className="font-mono text-[10px] text-[#7BA7F5]/50 hover:text-[#7BA7F5] transition-colors">
-                    Etherscan →
+                    {xt.donateUi.ethExplorer} →
                   </a>
                 </div>
               </div>

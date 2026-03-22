@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { getT, type Lang } from '@/lib/i18n'
+import { getExtraT } from '@/lib/i18n/extra'
 import {
   MOCK_EVENTS,
   MOCK_USER_DONATIONS,
@@ -16,6 +17,7 @@ interface MealDashboardViewProps {
 
 export function MealDashboardView({ lang, compact = false }: MealDashboardViewProps) {
   const t = getT(lang)
+  const xt = getExtraT(lang)
   const m = t.meal
   const lp = (path: string) => `/${lang}${path}`
   const s = MOCK_USER_SUMMARY
@@ -129,7 +131,10 @@ export function MealDashboardView({ lang, compact = false }: MealDashboardViewPr
                 <div className="flex items-center gap-3 font-mono text-[11px] text-white/25">
                   <span>{event.regionName}</span>
                   <span>·</span>
-                  <span>🍽 {event.mealsCount} {m.meals.toLowerCase()}</span>
+                  <span className="inline-flex items-center gap-1.5">
+                    <MealGlyph />
+                    {event.mealsCount} {m.meals.toLowerCase()}
+                  </span>
                   <span>·</span>
                   <span>{timeAgo(event.date)}</span>
                 </div>
@@ -143,17 +148,17 @@ export function MealDashboardView({ lang, compact = false }: MealDashboardViewPr
         {[
           {
             title: m.navRegions,
-            text: 'Browse active regions, compare urgency, and pick a verified feeding program.',
+            text: xt.meal.dashboardRegionsCard,
             href: lp('/meal/regions'),
           },
           {
             title: m.ctaDonate,
-            text: 'Start a frontend-only donation flow with region targeting and mock confirmation.',
+            text: xt.meal.dashboardDonateCard,
             href: lp('/meal/donate'),
           },
           {
             title: m.navExplorer,
-            text: 'Review transparent donation and event activity across the current MEAL dataset.',
+            text: xt.meal.dashboardExplorerCard,
             href: lp('/meal/explorer'),
           },
         ].map((item) => (
@@ -167,11 +172,19 @@ export function MealDashboardView({ lang, compact = false }: MealDashboardViewPr
             </p>
             <p className="text-[13px] text-white/38 font-light leading-relaxed mb-4">{item.text}</p>
             <span className="font-mono text-[11px] text-[#E8855A]/65 group-hover:text-[#E8855A] transition-colors">
-              Open →
+              {xt.meal.openAction} →
             </span>
           </Link>
         ))}
       </div>
     </div>
+  )
+}
+
+function MealGlyph() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
+      <path d="M2.6 3.2v7.6M5 3.2v7.6M9 3.2c0 1 .8 1.8 1.8 1.8.3 0 .6-.1.8-.2v6M11.6 3.2v1.4" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   )
 }

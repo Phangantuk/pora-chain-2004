@@ -1,11 +1,13 @@
 import Link from 'next/link'
 import { getT, isValidLang, type Lang } from '@/lib/i18n'
+import { getExtraT } from '@/lib/i18n/extra'
 import { REGIONS, formatUsd, MOCK_EVENTS } from '@/lib/meal/data'
 import { MealNav } from '@/components/meal/MealNav'
 
 export default function MealPage({ params }: { params: { lang: string } }) {
   const lang = isValidLang(params.lang) ? params.lang as Lang : 'en'
   const t = getT(lang)
+  const xt = getExtraT(lang)
   const m = t.meal
   const lp = (p: string) => `/${lang}${p}`
 
@@ -28,7 +30,7 @@ export default function MealPage({ params }: { params: { lang: string } }) {
         <div className="relative max-w-5xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[#E8855A]/25 bg-[#E8855A]/10 mb-6">
             <span className="w-1.5 h-1.5 rounded-full bg-[#E8855A] animate-pulse" />
-            <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-[#E8855A]">First PORA Product — Live</span>
+            <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-[#E8855A]">{xt.meal.firstProductLive}</span>
           </div>
           <h1 className="font-bold text-[clamp(56px,9vw,96px)] leading-none tracking-tight text-white mb-4">{m.heroTitle}</h1>
           <p className="font-mono text-[13px] tracking-[0.15em] uppercase text-[#E8855A] mb-6">{m.tagline}</p>
@@ -56,10 +58,10 @@ export default function MealPage({ params }: { params: { lang: string } }) {
       <section className="border-y border-white/[0.06] bg-[#0C0C0E]">
         <div className="max-w-5xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-white/[0.06]">
           {[
-            { n: formatUsd(totalRaised),       label: 'Total raised' },
-            { n: totalMeals.toLocaleString(),  label: 'Meals served' },
-            { n: String(REGIONS.length),       label: 'Regions' },
-            { n: String(verifiedEvents),       label: 'Verified events' },
+            { n: formatUsd(totalRaised), label: xt.meal.statsRaised },
+            { n: totalMeals.toLocaleString(), label: xt.meal.statsMeals },
+            { n: String(REGIONS.length), label: xt.meal.statsRegions },
+            { n: String(verifiedEvents), label: xt.meal.statsEvents },
           ].map(({ n, label }) => (
             <div key={label} className="px-8 py-6 text-center">
               <p className="font-mono text-[26px] font-semibold text-white mb-1">{n}</p>
@@ -74,17 +76,17 @@ export default function MealPage({ params }: { params: { lang: string } }) {
         <div className="max-w-5xl mx-auto">
           <div className="flex items-end justify-between mb-10">
             <div>
-              <p className="font-mono text-[10px] tracking-[0.14em] uppercase text-[#E8855A] mb-3">How it works</p>
+              <p className="font-mono text-[10px] tracking-[0.14em] uppercase text-[#E8855A] mb-3">{xt.meal.howTag}</p>
               <h2 className="font-bold text-[clamp(24px,3vw,36px)] text-white">{m.howTitle}</h2>
             </div>
-            <Link href={lp('/meal/how-it-works')} className="font-mono text-[12px] text-white/30 hover:text-[#E8855A] transition-colors hidden sm:block">Full explanation →</Link>
+            <Link href={lp('/meal/how-it-works')} className="font-mono text-[12px] text-white/30 hover:text-[#E8855A] transition-colors hidden sm:block">{xt.meal.howFullExplanation} →</Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {[
-              { num:'01', title:'You donate',       desc:'Choose a region and send crypto. Your donation is directed to that specific feeding program.' },
-              { num:'02', title:'Region receives',  desc:"The region's coordinators purchase ingredients and supplies for their kitchen." },
-              { num:'03', title:'Event is served',  desc:'A feeding event happens. The team logs it with date, location, and meal count.' },
-              { num:'04', title:'Protocol records', desc:'Validators verify the event. It\'s written to the PORA record layer — public and permanent.' },
+              { num: '01', title: xt.meal.step1Title, desc: xt.meal.step1Desc },
+              { num: '02', title: xt.meal.step2Title, desc: xt.meal.step2Desc },
+              { num: '03', title: xt.meal.step3Title, desc: xt.meal.step3Desc },
+              { num: '04', title: xt.meal.step4Title, desc: xt.meal.step4Desc },
             ].map(step => (
               <div key={step.num} className="bg-[#0C0C0E] border border-white/[0.07] rounded-2xl p-6 relative overflow-hidden hover:border-white/[0.13] transition-colors">
                 <div className="absolute top-0 left-0 right-0 h-[1px]" style={{ background:'linear-gradient(to right, rgba(232,133,90,0.3), transparent)' }} />
@@ -103,9 +105,9 @@ export default function MealPage({ params }: { params: { lang: string } }) {
           <div className="flex items-end justify-between mb-8">
             <div>
               <p className="font-mono text-[10px] tracking-[0.14em] uppercase text-[#E8855A] mb-3">{m.regionsTitle}</p>
-              <h2 className="font-bold text-[clamp(24px,3vw,36px)] text-white">Regions needing support</h2>
+              <h2 className="font-bold text-[clamp(24px,3vw,36px)] text-white">{xt.meal.regionsNeedSupport}</h2>
             </div>
-            <Link href={lp('/meal/regions')} className="font-mono text-[12px] text-white/30 hover:text-[#E8855A] transition-colors hidden sm:block">All regions →</Link>
+            <Link href={lp('/meal/regions')} className="font-mono text-[12px] text-white/30 hover:text-[#E8855A] transition-colors hidden sm:block">{m.allRegionsLink}</Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {REGIONS.filter(r => r.status !== 'funded').slice(0, 3).map(region => {
@@ -142,7 +144,7 @@ export default function MealPage({ params }: { params: { lang: string } }) {
           </div>
           <div className="mt-6 text-center">
             <Link href={lp('/meal/regions')} className="inline-flex items-center gap-2 font-mono text-[12px] text-white/35 hover:text-white/70 transition-colors border border-white/[0.07] hover:border-white/[0.15] px-5 py-2.5 rounded-lg">
-              {m.ctaRegions} — all {REGIONS.length} regions →
+              {m.ctaRegions} - {xt.meal.allRegions} {REGIONS.length} →
             </Link>
           </div>
         </div>
@@ -156,20 +158,20 @@ export default function MealPage({ params }: { params: { lang: string } }) {
             <div className="grid grid-cols-1 lg:grid-cols-2">
               {/* Left: copy */}
               <div className="px-10 py-12">
-                <p className="font-mono text-[10px] tracking-[0.14em] uppercase text-[#4ECAA0] mb-4">Coming soon</p>
-                <h2 className="font-bold text-[clamp(22px,2.5vw,32px)] text-white mb-4 tracking-tight">Interactive World Map</h2>
+                <p className="font-mono text-[10px] tracking-[0.14em] uppercase text-[#4ECAA0] mb-4">{xt.meal.mapComingSoon}</p>
+                <h2 className="font-bold text-[clamp(22px,2.5vw,32px)] text-white mb-4 tracking-tight">{xt.meal.mapPreviewTitle}</h2>
                 <p className="text-[14px] text-white/45 font-light leading-relaxed mb-6">
-                  The future MEAL interface will let you zoom into any country, see food-need density by region, and direct support exactly where it's needed.
+                  {xt.meal.mapPreviewBody}
                 </p>
                 <ul className="flex flex-col gap-2.5 mb-8">
-                  {['Zoom into countries and districts', 'View food-need deficit by area', 'Direct donations to specific zones', 'Track coverage and surplus in real time'].map(item => (
+                  {[m.mapFeature1, m.mapFeature2, m.mapFeature3, m.mapFeature4].map(item => (
                     <li key={item} className="flex items-start gap-3 text-[13px] text-white/40 font-light">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#4ECAA0]/50 shrink-0 mt-1.5" />{item}
                     </li>
                   ))}
                 </ul>
                 <Link href={lp('/meal/map')} className="inline-flex items-center gap-2 font-mono text-[12px] text-[#4ECAA0]/60 hover:text-[#4ECAA0] transition-colors">
-                  Preview map concept →
+                  {xt.meal.mapPreviewCta} →
                 </Link>
               </div>
               {/* Right: mini map viz */}
@@ -200,7 +202,7 @@ export default function MealPage({ params }: { params: { lang: string } }) {
                     </div>
                   ))}
                 </div>
-                <div className="absolute bottom-4 right-4 font-mono text-[9px] text-white/20 tracking-wide">MEAL Global Coverage Preview</div>
+                <div className="absolute bottom-4 right-4 font-mono text-[9px] text-white/20 tracking-wide">{xt.meal.mapCoveragePreview}</div>
               </div>
             </div>
           </div>
@@ -214,8 +216,8 @@ export default function MealPage({ params }: { params: { lang: string } }) {
             <div className="absolute inset-0 pointer-events-none" style={{ background:'radial-gradient(ellipse at 50% 0%, rgba(232,133,90,0.07),transparent 60%)' }} />
             <div className="relative">
               <p className="font-mono text-[10px] tracking-[0.14em] uppercase text-[#E8855A] mb-4">PORA × MEAL</p>
-              <h2 className="font-bold text-[clamp(24px,3.5vw,40px)] text-white mb-4">Every meal, on the record.</h2>
-              <p className="text-[15px] text-white/40 max-w-md mx-auto mb-8 font-light">MEAL is built on PORA — the open verification protocol. Your donation creates a permanent, auditable trail from donor to plate.</p>
+              <h2 className="font-bold text-[clamp(24px,3.5vw,40px)] text-white mb-4">{xt.meal.ctaTitle}</h2>
+              <p className="text-[15px] text-white/40 max-w-md mx-auto mb-8 font-light">{xt.meal.ctaBody}</p>
               <div className="flex flex-wrap gap-3 justify-center">
                 <Link href={lp('/meal/donate')} className="inline-flex items-center gap-2 px-7 py-3 rounded-xl bg-[#E8855A] text-[#0D0805] font-semibold text-[14px] hover:bg-[#f0966e] hover:shadow-[0_8px_24px_rgba(232,133,90,0.3)] transition-all duration-200">{m.ctaDonate}</Link>
                 <Link href={lp('/meal/explorer')} className="inline-flex items-center gap-2 px-7 py-3 rounded-xl border border-white/[0.1] text-white/60 font-medium text-[14px] hover:text-white hover:border-white/[0.2] transition-all duration-200">{m.ctaExplorer}</Link>
