@@ -122,6 +122,14 @@ export default function PortalPage({ params }: { params: { lang: string } }) {
     { tag: p.stackFutureTag, label: p.stackFutureLabel, sub: p.stackFutureSub, opacity: 0.28 },
   ]
 
+  const MEAL_PATHS = [
+    { label: 'Regions', href: lp('/meal/regions'), note: 'Browse active programs' },
+    { label: 'Donate', href: lp('/meal/donate'), note: 'Start the mock donation flow' },
+    { label: 'Explorer', href: lp('/meal/explorer'), note: 'Review transparent activity' },
+    { label: 'Register', href: lp('/meal/register'), note: 'Create a demo donor account' },
+    { label: 'Dashboard', href: lp('/meal/dashboard'), note: 'Open the donor MVP dashboard' },
+  ]
+
   return (
     <>
       {/* Hero */}
@@ -148,15 +156,25 @@ export default function PortalPage({ params }: { params: { lang: string } }) {
                 : 'border-white/[0.07] bg-surface hover:border-white/[0.14] hover:shadow-[0_4px_20px_rgba(0,0,0,0.4)]',
             ].join(' ')}>
               {primary && <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-amber/50 to-transparent" />}
+              <div className="absolute top-5 right-5">
+                <span className={[
+                  'font-mono text-[9px] tracking-[0.12em] uppercase px-2.5 py-1 rounded-full border',
+                  primary
+                    ? 'text-amber border-amber/25 bg-amber/[0.08]'
+                    : 'text-ink-tertiary border-white/[0.07] bg-white/[0.03]',
+                ].join(' ')}>
+                  {href.replace(`/${lang}`, '')}
+                </span>
+              </div>
               <p className="font-mono text-[10px] tracking-[0.14em] uppercase text-amber/70 mb-5">{eyebrow}</p>
               <Illus />
               <h3 className="font-display text-[20px] font-bold text-ink-primary mb-2">{title}</h3>
               <p className="text-[13.5px] text-ink-secondary leading-[1.65] mb-6 font-light">{desc}</p>
-              <ul className="flex flex-col gap-2.5 mb-8 flex-1">
+              <ul className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mb-8 flex-1">
                 {meta.map((label, i) => (
-                  <li key={label} className="flex items-center gap-3 text-[13px] text-ink-secondary">
+                  <li key={label} className="flex items-center gap-3 text-[13px] text-ink-secondary rounded-xl border border-white/[0.06] bg-white/[0.02] px-3 py-3">
                     <span className="w-7 h-7 rounded-lg bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-[13px] shrink-0">{icons[i]}</span>
-                    {label}
+                    <span className="leading-snug">{label}</span>
                   </li>
                 ))}
               </ul>
@@ -171,6 +189,33 @@ export default function PortalPage({ params }: { params: { lang: string } }) {
               </Link>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="px-6 lg:px-12 pb-20">
+        <div className="max-w-[1100px] mx-auto rounded-2xl border border-white/[0.07] bg-[#0C0C0E] overflow-hidden">
+          <div className="px-6 py-5 border-b border-white/[0.07] flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+            <div>
+              <p className="font-mono text-[10px] tracking-[0.14em] uppercase text-amber/70 mb-2">MEAL Section</p>
+              <h2 className="font-display text-[22px] font-bold text-ink-primary">Frontend MVP routes inside `[lang]`</h2>
+            </div>
+            <p className="text-[13px] text-ink-secondary font-light max-w-md">
+              These are the core donor-facing paths now available directly under the existing localized routing tree.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-px bg-white/[0.06]">
+            {MEAL_PATHS.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="bg-[#0C0C0E] p-5 no-underline hover:bg-white/[0.02] transition-colors"
+              >
+                <p className="font-semibold text-[14px] text-ink-primary mb-1.5">{item.label}</p>
+                <p className="font-mono text-[10px] text-amber/70 mb-3">{item.href.replace(`/${lang}`, '')}</p>
+                <p className="text-[12.5px] text-ink-secondary font-light leading-relaxed">{item.note}</p>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 

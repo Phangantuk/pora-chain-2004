@@ -4,6 +4,7 @@ export type Lang = typeof SUPPORTED_LANGS[number]
 
 export function isValidLang(lang: string): lang is Lang {
   return SUPPORTED_LANGS.includes(lang as Lang)
+}
 
 // ─── Translation shape ────────────────────────────────────────────────────────
 export interface Translations {
@@ -25,7 +26,7 @@ export interface Translations {
     donate:        string
     explorer:      string
     meal:          string
-  }
+  },
 
   // ── Common ───────────────────────────────────────────────────────────────
   common: {
@@ -43,7 +44,7 @@ export interface Translations {
     verified:       string
     verifiedShort:  string
     development:    string
-  }
+  },
 
   // ── Home page ─────────────────────────────────────────────────────────────
   home: {
@@ -234,6 +235,7 @@ export interface Translations {
     statusConfirmed:string;statusPending:string;statusProcessing:string
     adminTitle:string;adminRegionsList:string;adminDonationSummary:string;adminRecentEvents:string
     emptyDonations:string;emptyEvents:string;backToMeal:string;openApp:string
+    confirmBack:string;confirmNote:string;processingText:string
     // nav sub-labels
     navOverview:string;navRegions:string;navExplorer:string
     // map page
@@ -499,8 +501,6 @@ const en: Translations = {
     demoMode:    'Demo mode — API unavailable',
     demoHint:    'Set NEXT_PUBLIC_EXPLORER_API to connect to a live backend.',
   },
-,
-
   portal: {
     metaDesc:           'Enter the PORA ecosystem — submit actions, verify events, or explore the record.',
     heroTag:            'Portal Access',
@@ -544,10 +544,9 @@ const en: Translations = {
     confirmBack:        '← Back',
     confirmNote:        'This is a frontend MVP — no real payment will be charged.',
     processing:         'Processing…',
-  }
-,
+  },
 
-meal: {
+  meal: {
     navLabel:'MEAL',tagline:'Feed the world. Verify every meal.',heroTitle:'MEAL',
     heroSub:'The first applied product inside the PORA ecosystem. MEAL connects donors with on-the-ground feeding programs — every donation is directed to a specific region, every meal is verified.',
     ctaRegions:'Explore Regions',ctaExplorer:'Open Explorer',ctaDonate:'Donate Now',ctaHowItWorks:'How it works',ctaOpenApp:'Open App',
@@ -782,7 +781,6 @@ const ru: Translations = {
     demoMode:    'Демо-режим — API недоступен',
     demoHint:    'Установите NEXT_PUBLIC_EXPLORER_API для подключения к бэкенду.',
   },
-,
 
   portal: {
     metaDesc:           'Войдите в экосистему PORA — отправляйте действия, верифицируйте события или исследуйте реестр.',
@@ -827,10 +825,9 @@ const ru: Translations = {
     confirmBack:        '← Назад',
     confirmNote:        'Это фронтенд-MVP — реальный платёж не будет осуществлён.',
     processing:         'Обработка…',
-  }
-,
+  },
 
-meal: {
+  meal: {
     navLabel:'MEAL',tagline:'Кормим мир. Верифицируем каждый приём пищи.',heroTitle:'MEAL',
     heroSub:'Первый прикладной продукт в экосистеме PORA. MEAL соединяет доноров с программами питания на местах — каждое пожертвование направляется в конкретный регион, каждый приём пищи верифицируется.',
     ctaRegions:'Изучить регионы',ctaExplorer:'Открыть проводник',ctaDonate:'Пожертвовать',ctaHowItWorks:'Как это работает',ctaOpenApp:'Открыть приложение',
@@ -887,6 +884,7 @@ const es: Translations = {
     enterPortal:   'Entrar al portal →',
     donate:        'Donar',
     explorer:      'Explorador',
+    meal:          'MEAL',
   },
 
   common: {
@@ -1100,7 +1098,6 @@ const es: Translations = {
     howItWorksLink:'Explicación completa →',allRegionsLink:'Todas las regiones →',
   },
 
-,
 
   portal: {
     metaDesc:           'Entra al ecosistema PORA — envía acciones, verifica eventos o explora el registro.',

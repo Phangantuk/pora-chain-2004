@@ -34,7 +34,7 @@ export default function RegisterPage({ params }: { params: { lang: string } }) {
           </div>
           <h2 className="font-bold text-[24px] text-white mb-2">Account created!</h2>
           <p className="text-[14px] text-white/40 mb-6 font-light">Welcome to MEAL, {form.name.split(' ')[0]}.</p>
-          <Link href={lp('/meal/app/dashboard')}
+          <Link href={lp('/meal/dashboard')}
             className="block w-full py-3 rounded-xl bg-[#E8855A] text-[#0D0805] font-semibold text-[14px] hover:bg-[#f0966e] transition-all text-center">
             Go to Dashboard
           </Link>

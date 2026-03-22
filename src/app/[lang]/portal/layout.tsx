@@ -1,19 +1,24 @@
 import Link from 'next/link'
 import { LogoMark } from '@/components/ui/LogoMark'
 
-const SIDEBAR_LINKS = [
-  { label: 'Dashboard',     href: '/portal/dashboard' },
-  { label: 'Validator',     href: '/portal/validator' },
-  { label: 'Organization',  href: '/portal/org' },
-  { label: '← Back to Site', href: '/' },
-]
+export default function PortalLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode
+  params: { lang: string }
+}) {
+  const lp = (path: string) => `/${params.lang}${path}`
+  const sidebarLinks = [
+    { label: 'Dashboard', href: lp('/portal/dashboard') },
+    { label: 'Validator', href: lp('/portal/validator') },
+    { label: 'Organization', href: lp('/portal/org') },
+    { label: 'MEAL Dashboard', href: lp('/meal/dashboard') },
+    { label: '← Back to Site', href: lp('/') },
+  ]
 
-// Note: Active state highlighting requires a Client Component.
-// In production, extract sidebar into 'use client' with usePathname().
-export default function PortalLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex h-screen overflow-hidden pt-16">
-      {/* Sidebar */}
       <aside className="w-52 shrink-0 bg-surface border-r border-white/[0.07] flex flex-col overflow-y-auto">
         <div className="p-5 border-b border-white/[0.07]">
           <div className="flex items-center gap-2 mb-1">
@@ -25,7 +30,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
           </p>
         </div>
         <nav className="p-4 flex flex-col gap-0.5">
-          {SIDEBAR_LINKS.map((link) => (
+          {sidebarLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -37,10 +42,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
         </nav>
       </aside>
 
-      {/* Content */}
-      <div className="flex-1 overflow-y-auto bg-black">
-        {children}
-      </div>
+      <div className="flex-1 overflow-y-auto bg-black">{children}</div>
     </div>
   )
 }
