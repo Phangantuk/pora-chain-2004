@@ -30,7 +30,7 @@ export default function LoginPage({ params }: { params: { lang: string } }) {
           </div>
           <h2 className="font-bold text-[24px] text-white mb-2">Welcome back</h2>
           <p className="text-[14px] text-white/40 mb-6 font-light">Redirecting to your dashboard…</p>
-          <Link href={lp('/meal/app/dashboard')}
+          <Link href={lp('/meal/dashboard')}
             className="block w-full py-3 rounded-xl bg-[#E8855A] text-[#0D0805] font-semibold text-[14px] hover:bg-[#f0966e] transition-all text-center">
             Open Dashboard
           </Link>

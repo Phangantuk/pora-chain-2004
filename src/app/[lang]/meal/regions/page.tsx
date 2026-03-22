@@ -68,8 +68,8 @@ export default function RegionsPage({ params }: { params: { lang: string } }) {
                     </div>
                   </div>
                   <div className="flex items-center gap-4 text-[11px] font-mono text-white/25 mb-5">
-                    <span>🍽 {region.mealsServed.toLocaleString()} {m.meals.toLowerCase()}</span>
-                    <span>· {region.eventCount} {m.events.toLowerCase()}</span>
+                    <span className="inline-flex items-center gap-1.5"><MealGlyph />{region.mealsServed.toLocaleString()} {m.meals.toLowerCase()}</span>
+                    <span>- {region.eventCount} {m.events.toLowerCase()}</span>
                   </div>
                   <div className="flex flex-wrap gap-1.5 mb-5">
                     {region.tags.map(tag => (
@@ -87,5 +87,13 @@ export default function RegionsPage({ params }: { params: { lang: string } }) {
         </div>
       </section>
     </div>
+  )
+}
+
+function MealGlyph() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
+      <path d="M2.6 3.2v7.6M5 3.2v7.6M9 3.2c0 1 .8 1.8 1.8 1.8.3 0 .6-.1.8-.2v6M11.6 3.2v1.4" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   )
 }

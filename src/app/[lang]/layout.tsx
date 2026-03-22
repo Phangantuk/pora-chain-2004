@@ -1,4 +1,4 @@
-import { Nav }    from '@/components/layout/Nav'
+import { Nav } from '@/components/layout/Nav'
 import { Footer } from '@/components/layout/Footer'
 import { isValidLang, getT, type Lang } from '@/lib/i18n'
 import { notFound } from 'next/navigation'
@@ -14,26 +14,27 @@ export async function generateMetadata({
   params: { lang: string }
 }): Promise<Metadata> {
   const lang = isValidLang(params.lang) ? (params.lang as Lang) : 'en'
-  const t    = getT(lang)
+  const t = getT(lang)
+
   return {
     title: {
-      default:  'PORA — Proof of Real Action',
+      default: 'PORA - Proof of Real Action',
       template: '%s | PORA',
     },
     description: t.home.heroSub,
   }
 }
 
-/* ─── Lang Layout ─────────────────────────────────────────────────────────────
-   Validates the [lang] param, renders Nav (with lang prop) + Footer.
-   Does NOT include <html>/<body> — those live in the root layout.
-──────────────────────────────────────────────────────────────────────────── */
+/*
+  Validates the [lang] route param and renders language-aware layout blocks.
+  Root <html>/<body> are defined in the top-level app layout.
+*/
 export default function LangLayout({
   children,
   params,
 }: {
   children: React.ReactNode
-  params:   { lang: string }
+  params: { lang: string }
 }) {
   if (!isValidLang(params.lang)) notFound()
   const lang = params.lang as Lang
@@ -42,7 +43,7 @@ export default function LangLayout({
     <>
       <Nav lang={lang} />
       <main>{children}</main>
-      <Footer />
+      <Footer lang={lang} />
     </>
   )
 }
