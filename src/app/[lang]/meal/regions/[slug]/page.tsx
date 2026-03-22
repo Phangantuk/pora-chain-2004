@@ -1,0 +1,143 @@
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
+import { getT, isValidLang, type Lang } from '@/lib/i18n'
+import { getRegionBySlug, REGIONS, MOCK_EVENTS, MOCK_DONATIONS, formatUsd, getProgressPct, formatDate, timeAgo } from '@/lib/meal/data'
+import { MealNav } from '@/components/meal/MealNav'
+
+export async function generateStaticParams() {
+  return REGIONS.map(r => ({ slug: r.slug }))
+}
+
+export default function RegionPage({ params }: { params: { lang: string; slug: string } }) {
+  const lang   = isValidLang(params.lang) ? params.lang as Lang : 'en'
+  const region = getRegionBySlug(params.slug)
+  if (!region) notFound()
+
+  const t   = getT(lang)
+  const m   = t.meal
+  const lp  = (p: string) => `/${lang}${p}`
+  const pct = getProgressPct(region)
+
+  const events    = MOCK_EVENTS.filter(e => e.regionSlug === region.slug)
+  const donations = MOCK_DONATIONS.filter(d => d.regionSlug === region.slug)
+
+  const STATUS_COLORS: Record<string, string> = { urgent:'#F5C542', active:'#4ECAA0', funded:'#7BA7F5' }
+  const statusColor = STATUS_COLORS[region.status]
+  const statusLabel = { urgent: m.urgent, active: m.active, funded: m.funded }[region.status] ?? region.status
+
+  return (
+    <div className="bg-[#070707] text-white min-h-screen">
+      <MealNav lang={lang} />
+      <section className="relative border-b border-white/[0.06] px-6 pt-16 pb-12 overflow-hidden">
+        <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background:`linear-gradient(to right,transparent,${statusColor}40,transparent)` }} />
+        <div className="relative max-w-5xl mx-auto">
+          <div className="flex items-center gap-2 font-mono text-[10px] text-white/20 mb-6">
+            <Link href={lp('/meal')} className="hover:text-white/50 transition-colors">MEAL</Link>
+            <span>/</span>
+            <Link href={lp('/meal/regions')} className="hover:text-white/50 transition-colors">Regions</Link>
+            <span>/</span>
+            <span style={{ color:`${statusColor}70` }}>{region.name}</span>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+            <div className="lg:col-span-2">
+              <div className="flex items-center gap-4 mb-4">
+                <span className="text-[40px]">{region.emoji}</span>
+                <div>
+                  <h1 className="font-bold text-[clamp(28px,4vw,44px)] tracking-tight text-white leading-tight">{region.name}</h1>
+                  <p className="font-mono text-[12px] text-white/30">{region.country}</p>
+                </div>
+              </div>
+              <p className="text-[15px] text-white/50 leading-relaxed mb-4 font-light max-w-xl">{region.description}</p>
+              <div className="bg-[#0C0C0E] border border-[#E8855A]/15 rounded-xl px-5 py-3 inline-flex items-start gap-2 mb-6">
+                <span className="text-[#E8855A] text-[14px] shrink-0 mt-0.5">↳</span>
+                <p className="text-[13px] text-white/50 italic font-light">{region.need}</p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {region.tags.map(tag => (
+                  <span key={tag} className="font-mono text-[11px] px-3 py-1 rounded-md bg-white/[0.04] border border-white/[0.06] text-white/30">{tag}</span>
+                ))}
+              </div>
+            </div>
+            <div className="flex flex-col gap-4">
+              <div className="bg-[#0C0C0E] border border-white/[0.07] rounded-2xl p-6"
+                style={{ background:`linear-gradient(#0C0C0E,#0C0C0E) padding-box, linear-gradient(135deg,${statusColor}25,transparent 60%) border-box`, border:'1px solid transparent' }}>
+                <div className="flex justify-between text-[12px] font-mono text-white/30 mb-3"><span>{m.raised}</span><span>{m.goal}</span></div>
+                <div className="flex justify-between text-[18px] font-semibold text-white mb-3">
+                  <span>{formatUsd(region.raisedUsd)}</span>
+                  <span className="text-white/30">{formatUsd(region.goalUsd)}</span>
+                </div>
+                <div className="h-2 bg-white/[0.06] rounded-full overflow-hidden mb-2">
+                  <div className="h-full rounded-full" style={{ width:`${pct}%`, backgroundColor:statusColor }} />
+                </div>
+                <p className="font-mono text-[11px] text-white/25 mb-5">{pct}% funded</p>
+                <div className="grid grid-cols-2 gap-3 mb-5 text-center">
+                  <div className="bg-white/[0.03] rounded-xl py-3">
+                    <p className="font-mono text-[18px] font-semibold text-white">{region.mealsServed.toLocaleString()}</p>
+                    <p className="font-mono text-[9px] text-white/25 uppercase tracking-wide mt-0.5">{m.meals}</p>
+                  </div>
+                  <div className="bg-white/[0.03] rounded-xl py-3">
+                    <p className="font-mono text-[18px] font-semibold text-white">{region.eventCount}</p>
+                    <p className="font-mono text-[9px] text-white/25 uppercase tracking-wide mt-0.5">{m.events}</p>
+                  </div>
+                </div>
+                <Link href={lp(`/meal/donate?region=${region.slug}`)} className="block w-full text-center font-semibold text-[14px] py-3 rounded-xl bg-[#E8855A] text-[#0D0805] hover:bg-[#f0966e] hover:shadow-[0_8px_24px_rgba(232,133,90,0.3)] transition-all duration-200">
+                  {m.donate} to this region
+                </Link>
+              </div>
+              <div className="bg-[#0C0C0E] border border-white/[0.07] rounded-xl px-5 py-4">
+                <p className="font-mono text-[10px] text-white/25 uppercase tracking-wide mb-1">{m.lastActive}</p>
+                <p className="font-mono text-[12px] text-white/60">{timeAgo(region.lastActivity)}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div className="max-w-5xl mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div>
+          <p className="font-mono text-[10px] tracking-[0.12em] uppercase text-white/25 mb-4">{m.events} ({events.length})</p>
+          {events.length === 0 ? (
+            <p className="text-[13px] text-white/25 font-mono">{m.emptyEvents}</p>
+          ) : (
+            <div className="flex flex-col gap-2">
+              {events.map(ev => (
+                <div key={ev.id} className="bg-[#0C0C0E] border border-white/[0.06] rounded-xl px-5 py-4">
+                  <div className="flex items-start justify-between gap-3 mb-2">
+                    <p className="text-[13px] text-white/70 leading-snug">{ev.description}</p>
+                    <span className={`font-mono text-[10px] px-2 py-0.5 rounded-md shrink-0 ${ev.verified ? 'text-[#4ECAA0] bg-[#4ECAA0]/10 border border-[#4ECAA0]/20' : 'text-white/30 bg-white/[0.04] border border-white/[0.07]'}`}>
+                      {ev.verified ? '✓ verified' : 'pending'}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-3 font-mono text-[11px] text-white/25">
+                    <span>🍽 {ev.mealsCount} {m.meals.toLowerCase()}</span>
+                    <span>· {timeAgo(ev.date)}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+        <div>
+          <p className="font-mono text-[10px] tracking-[0.12em] uppercase text-white/25 mb-4">{m.explRecentDonations} ({donations.length})</p>
+          {donations.length === 0 ? (
+            <p className="text-[13px] text-white/25 font-mono">{m.emptyDonations}</p>
+          ) : (
+            <div className="flex flex-col gap-2">
+              {donations.map(d => (
+                <div key={d.id} className="bg-[#0C0C0E] border border-white/[0.06] rounded-xl px-5 py-4 flex items-center justify-between">
+                  <div>
+                    <p className="text-[13px] text-white/70 mb-0.5">{d.donor || 'Anonymous'}</p>
+                    <p className="font-mono text-[10px] text-white/25">{formatDate(d.date)}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-mono text-[14px] text-[#E8855A] font-semibold">{formatUsd(d.amountUsd)}</p>
+                    <p className="font-mono text-[10px] text-white/25">{d.currency}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
