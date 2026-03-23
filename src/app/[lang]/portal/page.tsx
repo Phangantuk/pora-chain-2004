@@ -131,8 +131,43 @@ export default function PortalPage({ params }: { params: { lang: string } }) {
     { label: xt.portal.mealDonateLabel, href: lp('/meal/donate'), note: xt.portal.mealDonateNote },
     { label: xt.portal.mealExplorerLabel, href: lp('/meal/explorer'), note: xt.portal.mealExplorerNote },
     { label: xt.portal.mealRegisterLabel, href: lp('/meal/register'), note: xt.portal.mealRegisterNote },
-    { label: xt.portal.mealDashboardLabel, href: lp('/meal/dashboard'), note: xt.portal.mealDashboardNote },
+    { label: xt.portal.mealDashboardLabel, href: lp('/meal/app/dashboard'), note: xt.portal.mealDashboardNote },
   ]
+
+  const MEAL_ROLE_PATHS = [
+    {
+      label: lang === 'ru' ? 'Донор' : lang === 'es' ? 'Donante' : 'Donor',
+      href: lp('/meal/donate'),
+      note: lang === 'ru' ? 'Направляет помощь в регион' : lang === 'es' ? 'Dirige apoyo por región' : 'Directs support by region',
+    },
+    {
+      label: lang === 'ru' ? 'Участник' : lang === 'es' ? 'Participante' : 'Participant',
+      href: lp('/meal/app/participant'),
+      note: lang === 'ru' ? 'Фиксирует реальные события' : lang === 'es' ? 'Registra acciones reales' : 'Logs real events',
+    },
+    {
+      label: lang === 'ru' ? 'Партнёр' : lang === 'es' ? 'Socio' : 'Partner',
+      href: lp('/meal/app/partner'),
+      note: lang === 'ru' ? 'Координирует программу' : lang === 'es' ? 'Coordina programas' : 'Coordinates program flows',
+    },
+    {
+      label: lang === 'ru' ? 'Точка питания' : lang === 'es' ? 'Sede de comida' : 'Venue',
+      href: lp('/meal/app/venue'),
+      note: lang === 'ru' ? 'Работает с выдачей и QR' : lang === 'es' ? 'Opera entregas y QR' : 'Runs serving and QR validation',
+    },
+  ]
+
+  const MAP_PREVIEW_TITLE = lang === 'ru'
+    ? 'Будущая карта взаимодействия MEAL'
+    : lang === 'es'
+      ? 'Vista futura del mapa de interacción MEAL'
+      : 'Future MEAL interaction map'
+
+  const MAP_PREVIEW_SUB = lang === 'ru'
+    ? 'PORA — протокол записей и верификации. MEAL — первый прикладной слой: карта потребности, адресная поддержка и прозрачность событий.'
+    : lang === 'es'
+      ? 'PORA es la capa de protocolo y verificación. MEAL es la primera capa aplicada: mapa de necesidad, apoyo dirigido y eventos transparentes.'
+      : 'PORA is the protocol and verification layer. MEAL is the first applied layer: need map, targeted support, and transparent events.'
 
   return (
     <>
@@ -222,6 +257,59 @@ export default function PortalPage({ params }: { params: { lang: string } }) {
                 <p className="text-[12.5px] text-ink-secondary font-light leading-relaxed">{item.note}</p>
               </Link>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-6 lg:px-12 pb-20">
+        <div className="max-w-[1100px] mx-auto rounded-2xl border border-white/[0.07] bg-[#0C0C0E] overflow-hidden">
+          <div className="px-6 py-5 border-b border-white/[0.07]">
+            <p className="font-mono text-[10px] tracking-[0.14em] uppercase text-amber/70 mb-2">{m.mapEyebrow}</p>
+            <h2 className="font-display text-[22px] font-bold text-ink-primary mb-2">{MAP_PREVIEW_TITLE}</h2>
+            <p className="text-[13px] text-ink-secondary font-light max-w-3xl">{MAP_PREVIEW_SUB}</p>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-px bg-white/[0.06]">
+            <div className="bg-[#0C0C0E] p-5 md:p-6">
+              <div className="rounded-xl border border-white/[0.08] bg-[#09090A] p-4">
+                <p className="font-mono text-[10px] tracking-[0.12em] uppercase text-amber/70 mb-3">{m.mapPreviewLabel}</p>
+                <svg viewBox="0 0 760 300" className="w-full h-auto rounded-lg border border-white/[0.06] bg-[#060607]">
+                  <rect x="0" y="0" width="760" height="300" fill="#060607" />
+                  <path d="M73 99l30-22 45 8 24-15 46 13 36-8 49 16 41-9 54 22 23 23-18 26-49 20-62 6-53 24-84-7-47-17-43-33z" fill="rgba(232,133,90,0.18)" stroke="#E8855A" strokeWidth="1.2" />
+                  <path d="M432 74l54-16 45 11 23 20 11 37-26 28-58 11-31 24-55-10-17-30 9-42z" fill="rgba(78,202,160,0.13)" stroke="#4ECAA0" strokeWidth="1.2" />
+                  <path d="M597 147l45-10 31 19 11 29-16 22-40 6-25 16-37-12-9-29 11-29z" fill="rgba(123,167,245,0.12)" stroke="#7BA7F5" strokeWidth="1.2" />
+                  <circle cx="215" cy="120" r="7" fill="#E8855A" />
+                  <circle cx="455" cy="115" r="7" fill="#4ECAA0" />
+                  <circle cx="620" cy="184" r="7" fill="#7BA7F5" />
+                  <line x1="215" y1="120" x2="340" y2="230" stroke="#E8855A" strokeWidth="1.1" strokeDasharray="4 4" />
+                  <line x1="455" y1="115" x2="340" y2="230" stroke="#4ECAA0" strokeWidth="1.1" strokeDasharray="4 4" />
+                  <line x1="620" y1="184" x2="340" y2="230" stroke="#7BA7F5" strokeWidth="1.1" strokeDasharray="4 4" />
+                  <rect x="280" y="219" width="120" height="34" rx="8" fill="rgba(232,133,90,0.1)" stroke="#E8855A" strokeWidth="1.2" />
+                  <text x="340" y="239" fill="#E8855A" textAnchor="middle" fontSize="12" fontFamily="monospace">Donation Router</text>
+                </svg>
+                <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                  <p className="text-[12px] text-ink-secondary border border-white/[0.06] rounded-lg px-3 py-2">{m.mapFeature2}</p>
+                  <p className="text-[12px] text-ink-secondary border border-white/[0.06] rounded-lg px-3 py-2">{m.mapFeature3}</p>
+                  <p className="text-[12px] text-ink-secondary border border-white/[0.06] rounded-lg px-3 py-2">{m.mapFeature4}</p>
+                </div>
+              </div>
+            </div>
+            <div className="bg-[#0C0C0E] p-5 md:p-6">
+              <p className="font-mono text-[10px] tracking-[0.12em] uppercase text-amber/70 mb-3">
+                {lang === 'ru' ? 'Роли MEAL в MVP' : lang === 'es' ? 'Roles MEAL en MVP' : 'MEAL roles in MVP'}
+              </p>
+              <div className="flex flex-col gap-2.5">
+                {MEAL_ROLE_PATHS.map((role) => (
+                  <Link key={role.href} href={role.href} className="group rounded-xl border border-white/[0.07] bg-white/[0.01] p-3.5 no-underline hover:border-white/[0.14] transition-colors">
+                    <p className="text-[13.5px] font-semibold text-ink-primary mb-1">{role.label}</p>
+                    <p className="text-[12px] text-ink-secondary mb-2">{role.note}</p>
+                    <span className="font-mono text-[10px] text-amber/70 inline-flex items-center gap-1.5">
+                      {role.href.replace(`/${lang}`, '')}
+                      <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5h6M5.5 2.5 8 5 5.5 7.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>

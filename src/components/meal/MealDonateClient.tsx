@@ -7,7 +7,7 @@ import { getExtraT } from '@/lib/i18n/extra'
 import { REGIONS, formatUsd } from '@/lib/meal/data'
 import { MealNav } from '@/components/meal/MealNav'
 
-type MethodKind = 'tron' | 'eth' | 'card'
+type MethodKind = 'tron' | 'eth' | 'promptpay' | 'card'
 type MethodNoteKey = 'methodNoteUsdt' | 'methodNoteEth' | 'methodNoteFiat'
 
 interface DonationMethod {
@@ -15,13 +15,26 @@ interface DonationMethod {
   label: string
   kind: MethodKind
   network: string | null
-  noteKey: MethodNoteKey
+  noteKey?: MethodNoteKey
+  noteByLang?: Record<Lang, string>
   disabled?: boolean
 }
 
 const METHODS: DonationMethod[] = [
   { id: 'usdt', label: 'USDT TRC20', kind: 'tron', network: 'TRON', noteKey: 'methodNoteUsdt' },
   { id: 'eth', label: 'ETH / ERC20', kind: 'eth', network: 'Ethereum', noteKey: 'methodNoteEth' },
+  {
+    id: 'promptpay',
+    label: 'PromptPay',
+    kind: 'promptpay',
+    network: null,
+    noteByLang: {
+      en: 'THB transfer support in progress',
+      ru: 'Поддержка THB-переводов в разработке',
+      es: 'Soporte de transferencias THB en desarrollo',
+    },
+    disabled: true,
+  },
   { id: 'fiat', label: 'Bank / Card', kind: 'card', network: null, noteKey: 'methodNoteFiat', disabled: true },
 ]
 
@@ -41,7 +54,7 @@ export function MealDonateClient({ lang, initialRegion = '' }: MealDonateClientP
   const methods = METHODS.map((item) => ({
     ...item,
     network: item.network ?? xt.meal.networkComingSoon,
-    note: xt.meal[item.noteKey],
+    note: item.noteKey ? xt.meal[item.noteKey] : item.noteByLang?.[lang] ?? '',
   }))
 
   const [region, setRegion] = useState(initialRegion)
@@ -278,7 +291,7 @@ function Label({ children }: { children: React.ReactNode }) {
   return <p className="font-mono text-[10px] tracking-[0.12em] uppercase text-white/30 mb-3">{children}</p>
 }
 
-function MethodIcon({ kind }: { kind: 'tron' | 'eth' | 'card' }) {
+function MethodIcon({ kind }: { kind: 'tron' | 'eth' | 'promptpay' | 'card' }) {
   if (kind === 'tron') {
     return (
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
@@ -292,6 +305,14 @@ function MethodIcon({ kind }: { kind: 'tron' | 'eth' | 'card' }) {
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
         <path d="M10 2.8 5.8 10 10 12.2 14.2 10 10 2.8Z" stroke="currentColor" strokeWidth="1.3" />
         <path d="M10 12.9 5.8 10.7 10 17.2 14.2 10.7 10 12.9Z" stroke="currentColor" strokeWidth="1.3" />
+      </svg>
+    )
+  }
+  if (kind === 'promptpay') {
+    return (
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
+        <rect x="2.5" y="2.5" width="15" height="15" rx="3" stroke="currentColor" strokeWidth="1.4" />
+        <path d="M6.2 8.6h7.6M6.2 11.4h4.8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
       </svg>
     )
   }

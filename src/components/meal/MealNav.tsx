@@ -15,7 +15,7 @@ export function MealNav({ lang }: { lang: Lang }) {
     { label: m.navRegions,  href: lp('/meal/regions') },
     { label: m.ctaDonate,   href: lp('/meal/donate') },
     { label: m.navExplorer, href: lp('/meal/explorer') },
-    { label: m.ctaOpenApp,  href: lp('/meal/dashboard') },
+    { label: m.ctaOpenApp,  href: lp('/meal/app/dashboard') },
   ]
 
   return (

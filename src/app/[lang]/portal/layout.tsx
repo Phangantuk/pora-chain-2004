@@ -17,7 +17,7 @@ export default function PortalLayout({
     { label: xt.portalLayout.dashboard, href: lp('/portal/dashboard') },
     { label: xt.portalLayout.validator, href: lp('/portal/validator') },
     { label: xt.portalLayout.organization, href: lp('/portal/org') },
-    { label: xt.portalLayout.mealDashboard, href: lp('/meal/dashboard') },
+    { label: xt.portalLayout.mealDashboard, href: lp('/meal/app/dashboard') },
     { label: `← ${xt.portalLayout.backToSite}`, href: lp('/') },
   ]
 
