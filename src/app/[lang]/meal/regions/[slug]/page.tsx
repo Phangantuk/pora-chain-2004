@@ -51,7 +51,11 @@ export default function RegionPage({ params }: { params: { lang: string; slug: s
               </div>
               <p className="text-[15px] text-white/50 leading-relaxed mb-4 font-light max-w-xl">{region.description}</p>
               <div className="bg-[#0C0C0E] border border-[#E8855A]/15 rounded-xl px-5 py-3 inline-flex items-start gap-2 mb-6">
-                <span className="text-[#E8855A] text-[14px] shrink-0 mt-0.5">↳</span>
+                <span className="text-[#E8855A] text-[14px] shrink-0 mt-0.5 inline-flex items-center" aria-hidden>
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path d="M2.5 2.5v4h4M2.5 6.5l3-3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
                 <p className="text-[13px] text-white/50 italic font-light">{region.need}</p>
               </div>
               <div className="flex flex-wrap gap-2">
@@ -88,7 +92,7 @@ export default function RegionPage({ params }: { params: { lang: string; slug: s
               </div>
               <div className="bg-[#0C0C0E] border border-white/[0.07] rounded-xl px-5 py-4">
                 <p className="font-mono text-[10px] text-white/25 uppercase tracking-wide mb-1">{m.lastActive}</p>
-                <p className="font-mono text-[12px] text-white/60">{timeAgo(region.lastActivity)}</p>
+                <p className="font-mono text-[12px] text-white/60">{timeAgo(region.lastActivity, lang)}</p>
               </div>
             </div>
           </div>
@@ -111,7 +115,7 @@ export default function RegionPage({ params }: { params: { lang: string; slug: s
                   </div>
                   <div className="flex items-center gap-3 font-mono text-[11px] text-white/25">
                     <span className="inline-flex items-center gap-1.5"><MealGlyph />{ev.mealsCount} {m.meals.toLowerCase()}</span>
-                    <span>- {timeAgo(ev.date)}</span>
+                    <span>- {timeAgo(ev.date, lang)}</span>
                   </div>
                 </div>
               ))}
@@ -128,7 +132,7 @@ export default function RegionPage({ params }: { params: { lang: string; slug: s
                 <div key={d.id} className="bg-[#0C0C0E] border border-white/[0.06] rounded-xl px-5 py-4 flex items-center justify-between">
                   <div>
                     <p className="text-[13px] text-white/70 mb-0.5">{d.donor || xt.meal.anonymous}</p>
-                    <p className="font-mono text-[10px] text-white/25">{formatDate(d.date)}</p>
+                    <p className="font-mono text-[10px] text-white/25">{formatDate(d.date, lang)}</p>
                   </div>
                   <div className="text-right">
                     <p className="font-mono text-[14px] text-[#E8855A] font-semibold">{formatUsd(d.amountUsd)}</p>

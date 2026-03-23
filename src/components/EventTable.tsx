@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo } from 'react'
+import type { Lang } from '@/lib/i18n'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 export interface ScanEvent {
@@ -34,13 +35,20 @@ interface EventTableProps {
   loading: boolean
   error:   string | null
   labels?: Partial<EventTableLabels>
+  lang?: Lang
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
-function formatTime(iso: string): string {
+function localeForLang(lang: Lang): string {
+  if (lang === 'ru') return 'ru-RU'
+  if (lang === 'es') return 'es-ES'
+  return 'en-US'
+}
+
+function formatTime(iso: string, locale: string): string {
   const d = new Date(iso)
   if (isNaN(d.getTime())) return iso
-  return d.toLocaleString(undefined, {
+  return d.toLocaleString(locale, {
     year:   'numeric',
     month:  '2-digit',
     day:    '2-digit',
@@ -51,12 +59,14 @@ function formatTime(iso: string): string {
   })
 }
 
-function timeAgo(iso: string): string {
-  const secs = Math.floor((Date.now() - new Date(iso).getTime()) / 1000)
-  if (secs < 5)    return 'just now'
-  if (secs < 60)   return `${secs}s ago`
-  if (secs < 3600) return `${Math.floor(secs / 60)}m ago`
-  return `${Math.floor(secs / 3600)}h ago`
+function timeAgo(iso: string, locale: string): string {
+  const deltaSeconds = Math.floor((Date.now() - new Date(iso).getTime()) / 1000)
+  const abs = Math.abs(deltaSeconds)
+  const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' })
+  if (abs < 60) return rtf.format(-deltaSeconds, 'second')
+  if (abs < 3600) return rtf.format(-Math.floor(deltaSeconds / 60), 'minute')
+  if (abs < 86400) return rtf.format(-Math.floor(deltaSeconds / 3600), 'hour')
+  return rtf.format(-Math.floor(deltaSeconds / 86400), 'day')
 }
 
 // ─── Skeleton row ─────────────────────────────────────────────────────────────
@@ -77,8 +87,9 @@ function SkeletonRow() {
 }
 
 // ─── EventTable ───────────────────────────────────────────────────────────────
-export function EventTable({ events, loading, error, labels = {} }: EventTableProps) {
+export function EventTable({ events, loading, error, labels = {}, lang = 'en' }: EventTableProps) {
   const L = { ...DEFAULT_LABELS, ...labels }
+  const locale = localeForLang(lang)
 
   const sorted = useMemo(
     () =>
@@ -132,7 +143,12 @@ export function EventTable({ events, loading, error, labels = {} }: EventTablePr
       ) : (
         <div className="divide-y divide-white/[0.04]">
           {sorted.map((ev, i) => (
-            <EventRow key={`${ev.id}-${i}`} event={ev} isNew={i === 0 && !loading} />
+            <EventRow
+              key={`${ev.id}-${i}`}
+              event={ev}
+              isNew={i === 0 && !loading}
+              locale={locale}
+            />
           ))}
         </div>
       )}
@@ -141,7 +157,7 @@ export function EventTable({ events, loading, error, labels = {} }: EventTablePr
 }
 
 // ─── Single row ───────────────────────────────────────────────────────────────
-function EventRow({ event, isNew }: { event: ScanEvent; isNew: boolean }) {
+function EventRow({ event, isNew, locale }: { event: ScanEvent; isNew: boolean; locale: string }) {
   return (
     <div
       className="grid grid-cols-[1fr_1fr] sm:grid-cols-[1fr_1fr_120px] items-center
@@ -156,12 +172,12 @@ function EventRow({ event, isNew }: { event: ScanEvent; isNew: boolean }) {
       </div>
       <div className="px-5 py-3.5 min-w-0">
         <span className="font-mono text-[12px] text-white/50 block truncate">
-          {formatTime(event.time)}
+          {formatTime(event.time, locale)}
         </span>
       </div>
       <div className="px-5 py-3.5 hidden sm:block">
         <span className="font-mono text-[11px] text-white/25">
-          {timeAgo(event.time)}
+          {timeAgo(event.time, locale)}
         </span>
       </div>
     </div>

@@ -36,7 +36,7 @@ function cn(...c: (string | false | undefined | null)[]) {
 
 function shortAddr(addr: string): string {
   if (addr.length < 12) return addr
-  return `${addr.slice(0, 6)}…${addr.slice(-4)}`
+  return `${addr.slice(0, 6)}...${addr.slice(-4)}`
 }
 
 function formatTs(ts: number): string {
@@ -689,12 +689,18 @@ export default function DonatePage({ params }: { params: { lang: string } }) {
                 </span>
                 <div className="flex gap-4">
                   <a href={`https://tronscan.org/#/address/${TRON_ADDRESS}`} target="_blank" rel="noopener noreferrer"
-                    className="font-mono text-[10px] text-[#E8855A]/50 hover:text-[#E8855A] transition-colors">
-                    {xt.donateUi.tronExplorer} →
+                    className="font-mono text-[10px] text-[#E8855A]/50 hover:text-[#E8855A] transition-colors inline-flex items-center gap-1.5">
+                    <span>{xt.donateUi.tronExplorer}</span>
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden>
+                      <path d="M2 5h6M5.5 2.5 8 5 5.5 7.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
                   </a>
                   <a href={`https://etherscan.io/address/${ETH_ADDRESS}`} target="_blank" rel="noopener noreferrer"
-                    className="font-mono text-[10px] text-[#7BA7F5]/50 hover:text-[#7BA7F5] transition-colors">
-                    {xt.donateUi.ethExplorer} →
+                    className="font-mono text-[10px] text-[#7BA7F5]/50 hover:text-[#7BA7F5] transition-colors inline-flex items-center gap-1.5">
+                    <span>{xt.donateUi.ethExplorer}</span>
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden>
+                      <path d="M2 5h6M5.5 2.5 8 5 5.5 7.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
                   </a>
                 </div>
               </div>

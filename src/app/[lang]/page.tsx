@@ -136,17 +136,25 @@ function DashPanel({ title, subtitle, badge, children, className }: {
   )
 }
 
-const FEED_EVENTS = [
-  { id:1, location:'Bangkok, Thailand',   amount:'24', time:'2m ago',  hash:'0x3f8a…2c9e' },
-  { id:2, location:'Nairobi, Kenya',      amount:'18', time:'7m ago',  hash:'0xd12b…8f01' },
-  { id:3, location:'Berlin, Germany',     amount:'12', time:'14m ago', hash:'0x71ca…4d55' },
-  { id:4, location:'São Paulo, Brazil',   amount:'30', time:'21m ago', hash:'0xaa3f…9b22' },
-  { id:5, location:'Lagos, Nigeria',      amount:'42', time:'35m ago', hash:'0x5e7d…3c88' },
-  { id:6, location:'Manila, Philippines', amount:'16', time:'48m ago', hash:'0xb2f1…7a04' },
+const FEED_ROWS = [
+  { id: 1, location: 'Bangkok, Thailand', amount: '24', minutesAgo: 2, hash: '0x3f8a...2c9e' },
+  { id: 2, location: 'Nairobi, Kenya', amount: '18', minutesAgo: 7, hash: '0xd12b...8f01' },
+  { id: 3, location: 'Berlin, Germany', amount: '12', minutesAgo: 14, hash: '0x71ca...4d55' },
+  { id: 4, location: 'Sao Paulo, Brazil', amount: '30', minutesAgo: 21, hash: '0xaa3f...9b22' },
+  { id: 5, location: 'Lagos, Nigeria', amount: '42', minutesAgo: 35, hash: '0x5e7d...3c88' },
+  { id: 6, location: 'Manila, Philippines', amount: '16', minutesAgo: 48, hash: '0xb2f1...7a04' },
 ]
 
 const SPARK_DATA = [18,32,24,45,38,52,41,60,47,58,43,67]
 const MAP_NODES  = [{x:'15%',y:'45%'},{x:'30%',y:'55%'},{x:'50%',y:'35%'},{x:'65%',y:'50%'},{x:'78%',y:'42%'},{x:'45%',y:'60%'}]
+
+function MiniMealGlyph() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
+      <path d="M3.4 2.5v3.8M5.2 2.5v3.8M7.8 2.5v2.2a1 1 0 0 0 2 0V2.5M3.4 6.3v5.2M5.2 6.3v5.2M8.8 6.3v5.2" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
+    </svg>
+  )
+}
 
 function HealthRow({ label, value, status }: { label:string; value:string; status:'ok'|'warn'|'idle' }) {
   const dots = { ok:'#4ECAA0', warn:'#F5C542', idle:'#7BA7F5' }
@@ -169,7 +177,41 @@ export default function LangHomePage({ params }: { params: { lang: string } }) {
   const lang = isValidLang(params.lang) ? params.lang as Lang : 'en'
   const t    = getT(lang)
   const h    = t.home
+  const m    = t.meal
   const lp   = (path: string) => `/${lang}${path}`
+
+  const homeUi = lang === 'ru'
+    ? {
+      justNow: '?????? ???',
+      mealsUnit: '??????',
+      healthy: '?????????',
+      trendCountries: '2 ?????',
+      minuteShort: '?',
+      ago: '?????',
+    }
+    : lang === 'es'
+      ? {
+        justNow: 'ahora',
+        mealsUnit: 'comidas',
+        healthy: 'Estable',
+        trendCountries: '2 nuevos',
+        minuteShort: 'm',
+        ago: 'atr?s',
+      }
+      : {
+        justNow: 'just now',
+        mealsUnit: 'meals',
+        healthy: 'Healthy',
+        trendCountries: '2 new',
+        minuteShort: 'm',
+        ago: 'ago',
+      }
+
+  const formatFeedAge = (minutesAgo: number) => {
+    if (lang === 'ru') return `${minutesAgo}${homeUi.minuteShort} ?????`
+    if (lang === 'es') return `hace ${minutesAgo}${homeUi.minuteShort}`
+    return `${minutesAgo}${homeUi.minuteShort} ${homeUi.ago}`
+  }
 
   const heroStats = useReveal()
   const dashReveal = useReveal()
@@ -205,7 +247,13 @@ export default function LangHomePage({ params }: { params: { lang: string } }) {
           {[h.flowStep1, h.flowStep2, h.flowStep3].map((step, i) => (
             <span key={step} className="flex items-center gap-3">
               <span className="px-4 py-2 rounded-lg bg-[#0E0E0F] border border-white/[0.07] font-mono text-[12px] tracking-wide text-white/70">{step}</span>
-              {i < 2 && <span className="text-[#E8855A]/50 text-lg">→</span>}
+              {i < 2 && (
+                <span className="text-[#E8855A]/50 text-lg inline-flex items-center">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
+                    <path d="M2.5 6h7M6.2 2.8 9.4 6 6.2 9.2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
+              )}
             </span>
           ))}
         </div>
@@ -318,9 +366,9 @@ export default function LangHomePage({ params }: { params: { lang: string } }) {
                     <div key={item.loc} className="flex items-center justify-between py-3.5 border-b border-white/[0.06] last:border-0">
                       <div>
                         <p className="text-[13px] text-white/70 mb-0.5">{item.loc}</p>
-                        <p className="font-mono text-[10px] text-white/25 tracking-wide">{t.common.verified} · just now</p>
+                        <p className="font-mono text-[10px] text-white/25 tracking-wide">{t.common.verified} | {homeUi.justNow}</p>
                       </div>
-                      <span className="font-mono text-[12px] text-[#E8855A] shrink-0 ml-4">{item.n} meals</span>
+                      <span className="font-mono text-[12px] text-[#E8855A] shrink-0 ml-4">{item.n} {homeUi.mealsUnit}</span>
                     </div>
                   ))}
                   <div className="mt-5 flex items-center gap-2"><LiveDot /><span className="font-mono text-[11px] text-[#4ECAA0] tracking-wide">{h.liveEvents}</span></div>
@@ -371,10 +419,10 @@ export default function LangHomePage({ params }: { params: { lang: string } }) {
           <div ref={dashReveal.ref}>
             {/* Dash stat cards */}
             <div className={cn('grid grid-cols-2 lg:grid-cols-4 gap-4 mb-4 transition-all duration-700', dashReveal.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8')}>
-              <DashStatCard icon={<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>} label={h.statVerified} value={12450} suffix="+" trend="↑ 8.2%" started={dashReveal.visible} delay={0}   />
-              <DashStatCard icon={<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.5"/><path d="M8 5v3l2 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>} label={h.statMeals} value={8920} trend="↑ 12%" started={dashReveal.visible} delay={100} />
-              <DashStatCard icon={<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.5"/><path d="M1 8h14M8 2s-3 2-3 6 3 6 3 6M8 2s3 2 3 6-3 6-3 6" stroke="currentColor" strokeWidth="1.5"/></svg>} label={h.statCountries} value={17} trend="↑ 2 new" started={dashReveal.visible} delay={200} />
-              <DashStatCard icon={<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a3 3 0 100 6 3 3 0 000-6zM2 14s0-4 6-4 6 4 6 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>} label={h.statValidators} value={54} trend="↑ 5" started={dashReveal.visible} delay={300} />
+              <DashStatCard icon={<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>} label={h.statVerified} value={12450} suffix="+" trend="+8.2%" started={dashReveal.visible} delay={0}   />
+              <DashStatCard icon={<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.5"/><path d="M8 5v3l2 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>} label={h.statMeals} value={8920} trend="+12%" started={dashReveal.visible} delay={100} />
+              <DashStatCard icon={<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.5"/><path d="M1 8h14M8 2s-3 2-3 6 3 6 3 6M8 2s3 2 3 6-3 6-3 6" stroke="currentColor" strokeWidth="1.5"/></svg>} label={h.statCountries} value={17} trend={homeUi.trendCountries} started={dashReveal.visible} delay={200} />
+              <DashStatCard icon={<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a3 3 0 100 6 3 3 0 000-6zM2 14s0-4 6-4 6 4 6 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>} label={h.statValidators} value={54} trend="+5" started={dashReveal.visible} delay={300} />
             </div>
 
             {/* Feed + map/health */}
@@ -384,7 +432,7 @@ export default function LangHomePage({ params }: { params: { lang: string } }) {
               <div className="lg:col-span-3" ref={feedReveal.ref}>
                 <DashPanel title={h.dashFeedTitle} subtitle={h.dashFeedSub} badge={<div className="flex items-center gap-2"><LiveDot /><span className="font-mono text-[10px] text-[#4ECAA0] tracking-wide">{h.dashFeedLive}</span></div>} className="h-full">
                   <div>
-                    {FEED_EVENTS.map((ev, i) => {
+                    {FEED_ROWS.map((ev, i) => {
                       const [show, setShow] = useState(false) // eslint-disable-line
                       useEffect(() => { // eslint-disable-line
                         const t = setTimeout(() => setShow(true), feedReveal.visible ? i * 80 : 99999)
@@ -392,16 +440,18 @@ export default function LangHomePage({ params }: { params: { lang: string } }) {
                       }, [feedReveal.visible])
                       return (
                         <div key={ev.id} className={cn('flex items-center gap-3 px-5 py-3.5 border-b border-white/[0.04] last:border-0 hover:bg-white/[0.02] transition-all duration-500', show ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-3')}>
-                          <div className="w-8 h-8 rounded-xl flex items-center justify-center text-[14px] shrink-0" style={{ background:'rgba(232,133,90,0.1)' }}>🍽</div>
+                          <div className="w-8 h-8 rounded-xl flex items-center justify-center text-[14px] shrink-0 text-[#E8855A]" style={{ background:'rgba(232,133,90,0.1)' }}>
+                            <MiniMealGlyph />
+                          </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 mb-0.5">
                               <span className="text-[13px] font-medium text-white/80 truncate">{ev.location}</span>
-                              <span className="font-mono text-[10px] px-1.5 py-px rounded shrink-0" style={{ color:'#E8855A', background:'rgba(232,133,90,0.1)' }}>Meal</span>
+                              <span className="font-mono text-[10px] px-1.5 py-px rounded shrink-0" style={{ color:'#E8855A', background:'rgba(232,133,90,0.1)' }}>{m.navLabel}</span>
                             </div>
-                            <p className="font-mono text-[10px] text-white/25 tracking-wide">{ev.hash} · {ev.time}</p>
+                            <p className="font-mono text-[10px] text-white/25 tracking-wide">{ev.hash} | {formatFeedAge(ev.minutesAgo)}</p>
                           </div>
                           <div className="text-right shrink-0">
-                            <p className="font-mono text-[12px] font-medium text-[#E8855A]">+{ev.amount} meals</p>
+                            <p className="font-mono text-[12px] font-medium text-[#E8855A]">+{ev.amount} {homeUi.mealsUnit}</p>
                             <p className="font-mono text-[9px] text-[#4ECAA0]/60 tracking-wide mt-0.5">{t.common.verifiedShort}</p>
                           </div>
                         </div>
@@ -443,7 +493,7 @@ export default function LangHomePage({ params }: { params: { lang: string } }) {
                   </div>
                 </DashPanel>
 
-                <DashPanel title={h.dashHealthTitle} subtitle={h.dashHealthSub} badge={<div className="flex items-center gap-1.5"><LiveDot /><span className="font-mono text-[10px] text-[#4ECAA0]">Healthy</span></div>}>
+                <DashPanel title={h.dashHealthTitle} subtitle={h.dashHealthSub} badge={<div className="flex items-center gap-1.5"><LiveDot /><span className="font-mono text-[10px] text-[#4ECAA0]">{homeUi.healthy}</span></div>}>
                   <div className="px-5 py-1">
                     <HealthRow label={h.healthNetwork}    value={h.healthActive}     status="ok"   />
                     <HealthRow label={h.healthValidators} value={h.healthOnline}     status="ok"   />

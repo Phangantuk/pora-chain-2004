@@ -83,7 +83,7 @@ export default function MealExplorerPage({ params }: { params: { lang: string } 
                     </div>
                     <p className="font-mono text-[14px] font-semibold text-[#E8855A]">{formatUsd(d.amountUsd)}</p>
                     <p className="font-mono text-[12px] text-white/40 hidden sm:block">{d.currency}</p>
-                    <p className="font-mono text-[11px] text-white/30 hidden sm:block">{formatDate(d.date)}</p>
+                    <p className="font-mono text-[11px] text-white/30 hidden sm:block">{formatDate(d.date, lang)}</p>
                     <span className="font-mono text-[10px] px-2 py-0.5 rounded-md border hidden sm:inline-flex"
                       style={{ color, borderColor: `${color}25`, background: `${color}10` }}>
                       {d.status === 'confirmed' ? m.statusConfirmed : d.status === 'pending' ? m.statusPending : m.statusProcessing}
@@ -115,7 +115,7 @@ export default function MealExplorerPage({ params }: { params: { lang: string } 
                   <span className={`font-mono text-[10px] px-2 py-0.5 rounded-md border hidden sm:inline-flex ${ev.verified ? 'text-[#4ECAA0] border-[#4ECAA0]/25 bg-[#4ECAA0]/10' : 'text-white/30 border-white/[0.07] bg-white/[0.03]'}`}>
                     {ev.verified ? m.verifiedLabel : m.pendingLabel}
                   </span>
-                  <p className="font-mono text-[11px] text-white/25 hidden sm:block">{timeAgo(ev.date)}</p>
+                  <p className="font-mono text-[11px] text-white/25 hidden sm:block">{timeAgo(ev.date, lang)}</p>
                 </div>
               ))}
             </div>
@@ -126,7 +126,10 @@ export default function MealExplorerPage({ params }: { params: { lang: string } 
         <div className="text-center bg-[#0C0C0E] border border-white/[0.06] rounded-2xl px-8 py-6">
           <p className="text-[13px] text-white/30 mb-3 font-light">{m.protocolNote}</p>
           <Link href={lp('/explorer')} className="inline-flex items-center gap-2 font-mono text-[12px] text-[#E8855A]/60 hover:text-[#E8855A] transition-colors">
-            {xt.meal.openPoraExplorer} →
+            <span>{xt.meal.openPoraExplorer}</span>
+            <svg width="11" height="11" viewBox="0 0 11 11" fill="none" aria-hidden>
+              <path d="M2 5.5h7M6 2.5l3 3-3 3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
           </Link>
         </div>
       </div>

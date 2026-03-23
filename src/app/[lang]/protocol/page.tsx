@@ -1,124 +1,163 @@
 import type { Metadata } from 'next'
-import { SectionHeader, Card } from '@/components/ui'
-import { GradientLine } from '@/components/ui/GradientLine'
+import { SectionHeader } from '@/components/ui'
+import { isValidLang, type Lang } from '@/lib/i18n'
 
-export const metadata: Metadata = {
-  title: 'Protocol',
-  description: 'Learn how the Proof of Real Action protocol works — from action submission to permanent on-chain record.',
+type LayerItem = { label: string; sub: string; accent?: boolean }
+type ComponentItem = { name: string; desc: string }
+
+function getCopy(lang: Lang) {
+  if (lang === 'ru') {
+    return {
+      metaTitle: 'Протокол',
+      metaDesc: 'Как работает PORA: от отправки действия до постоянной публичной записи.',
+      tag: 'Протокол',
+      title: 'Что такое Proof of Real Action',
+      subtitle:
+        'PORA — инфраструктура, которая превращает реальные гуманитарные действия в проверяемые и прозрачные цифровые записи.',
+      p1: 'Классические цифровые системы фиксируют активность, но редко подтверждают реальное воздействие. PORA закрывает этот разрыв.',
+      p2: 'Ценность формируется не спекуляцией, а проверяемым фактом действия и открытой подотчётностью.',
+      p3: 'Ядро минимально: что считать валидным действием, как проверять и как записывать в общий реестр.',
+      architecture: 'Архитектура системы',
+      components: [
+        { name: 'Действия', desc: 'Реальные гуманитарные события, отправленные участниками с подтверждающими данными.' },
+        { name: 'Верификация', desc: 'Проверка соответствия стандартам протокола до записи.' },
+        { name: 'Валидаторы', desc: 'Независимые участники сети, принимающие решения по заявкам.' },
+        { name: 'Запись протокола', desc: 'Постоянная публичная запись в реестре PORA для каждого подтверждённого действия.' },
+      ] as ComponentItem[],
+      layers: [
+        { label: 'СЛОЙ УЧАСТНИКОВ', sub: 'Отправка действий и доказательств' },
+        { label: 'СЛОЙ ПРОВЕРКИ', sub: 'Проверка валидаторами и консенсус' },
+        { label: 'ПРОТОКОЛЬНЫЙ СЛОЙ', sub: 'Стандарты PORA и правила записи' },
+        { label: 'СЛОЙ РЕЕСТРА', sub: 'Постоянные публичные события', accent: true },
+      ] as LayerItem[],
+      api: 'Публичный доступ',
+      portal: 'Веб-интерфейс',
+      sdk: 'Интеграция разработчиков',
+    }
+  }
+
+  if (lang === 'es') {
+    return {
+      metaTitle: 'Protocolo',
+      metaDesc: 'Cómo funciona PORA: desde el envío de acciones hasta registros públicos permanentes.',
+      tag: 'Protocolo',
+      title: 'Qué es Proof of Real Action',
+      subtitle:
+        'PORA es infraestructura para convertir acciones humanitarias reales en registros digitales verificables y transparentes.',
+      p1: 'Los sistemas digitales tradicionales registran actividad, pero rara vez prueban impacto real. PORA cierra esa brecha.',
+      p2: 'El valor se crea con acciones verificables y trazabilidad pública, no con especulación.',
+      p3: 'El núcleo es mínimo por diseño: qué es válido, cómo se verifica y cómo se registra.',
+      architecture: 'Arquitectura del sistema',
+      components: [
+        { name: 'Acciones', desc: 'Eventos humanitarios reales enviados por participantes con evidencia.' },
+        { name: 'Verificación', desc: 'Proceso de revisión para confirmar cumplimiento del protocolo.' },
+        { name: 'Validadores', desc: 'Participantes independientes que aprueban o rechazan envíos.' },
+        { name: 'Registro de protocolo', desc: 'Entrada pública y permanente en PORA para cada acción verificada.' },
+      ] as ComponentItem[],
+      layers: [
+        { label: 'CAPA PARTICIPANTE', sub: 'Envío de acciones y evidencia' },
+        { label: 'CAPA DE VERIFICACIÓN', sub: 'Revisión por validadores y consenso' },
+        { label: 'CAPA DE PROTOCOLO', sub: 'Estándares PORA y lógica de registro' },
+        { label: 'CAPA DE REGISTRO', sub: 'Eventos públicos permanentes', accent: true },
+      ] as LayerItem[],
+      api: 'Acceso público',
+      portal: 'Interfaz web',
+      sdk: 'Integración para desarrolladores',
+    }
+  }
+
+  return {
+    metaTitle: 'Protocol',
+    metaDesc: 'How PORA works from action submission to permanent public records.',
+    tag: 'Protocol',
+    title: 'What is Proof of Real Action',
+    subtitle:
+      'PORA is infrastructure for turning real-world humanitarian events into verifiable and transparent digital records.',
+    p1: 'Traditional digital systems track activity but rarely verify real-world impact. PORA bridges that gap.',
+    p2: 'Value is created through verifiable actions and open accountability rather than speculation.',
+    p3: 'The core is intentionally minimal: what is valid, how it is verified, and how it is recorded.',
+    architecture: 'System architecture',
+    components: [
+      { name: 'Actions', desc: 'Real-world humanitarian events submitted with supporting evidence.' },
+      { name: 'Verification', desc: 'Review flow that confirms compliance with protocol standards.' },
+      { name: 'Validators', desc: 'Independent participants who approve or reject submissions.' },
+      { name: 'Protocol record', desc: 'Permanent, public PORA ledger entry for each verified action.' },
+    ] as ComponentItem[],
+    layers: [
+      { label: 'PARTICIPANT LAYER', sub: 'Action submission and evidence upload' },
+      { label: 'VERIFICATION LAYER', sub: 'Validator review and consensus' },
+      { label: 'PROTOCOL LAYER', sub: 'PORA standards and record logic' },
+      { label: 'RECORD LAYER', sub: 'Permanent public protocol events', accent: true },
+    ] as LayerItem[],
+    api: 'Public access',
+    portal: 'Web interface',
+    sdk: 'Developer integration',
+  }
 }
 
-const COMPONENTS = [
-  {
-    name: 'Actions',
-    desc: 'Real-world humanitarian events submitted by participants with supporting evidence.',
-  },
-  {
-    name: 'Verification',
-    desc: 'The review process that confirms an action meets protocol standards before recording.',
-  },
-  {
-    name: 'Validators',
-    desc: 'Independent participants who review evidence and approve or reject submitted actions.',
-  },
-  {
-    name: 'Protocol Record',
-    desc: 'A permanent, public, tamper-proof entry in the PORA global ledger for each verified action.',
-  },
-]
+export async function generateMetadata({ params }: { params: { lang: string } }): Promise<Metadata> {
+  const lang = isValidLang(params.lang) ? (params.lang as Lang) : 'en'
+  const c = getCopy(lang)
+  return { title: c.metaTitle, description: c.metaDesc }
+}
 
-const ARCH_LAYERS = [
-  { label: 'PARTICIPANT LAYER',  sub: 'Action submission & evidence upload' },
-  { label: 'VERIFICATION LAYER', sub: 'Validator network review & consensus' },
-  { label: 'PROTOCOL LAYER',     sub: 'Core PORA record standards & logic' },
-  { label: 'RECORD LAYER',       sub: 'Permanent on-chain protocol events', accent: true },
-]
+export default function ProtocolPage({ params }: { params: { lang: string } }) {
+  const lang = isValidLang(params.lang) ? (params.lang as Lang) : 'en'
+  const c = getCopy(lang)
+  const compactRu = lang === 'ru'
 
-export default function ProtocolPage() {
   return (
     <>
-      {/* Page hero */}
-      <section className="bg-surface/50 border-b border-white/[0.07] px-12 pt-32 pb-16 max-w-none">
+      <section className="bg-surface/50 border-b border-white/[0.07] px-6 lg:px-12 pt-32 pb-16">
         <div className="max-w-[1200px] mx-auto">
-          <SectionHeader
-            tag="Protocol"
-            title="What is Proof of Real Action"
-            subtitle="PORA is infrastructure for turning real-world humanitarian events into verifiable, transparent digital records — creating value from action."
-          />
+          <SectionHeader tag={c.tag} title={c.title} subtitle={c.subtitle} />
         </div>
       </section>
 
-      {/* Main content */}
-      <section className="px-12 py-24 max-w-[1200px] mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
-
-          {/* Text + component list */}
+      <section className="px-6 lg:px-12 py-20 max-w-[1200px] mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           <div>
-            <p className="text-[15px] text-ink-secondary leading-[1.75] mb-5 font-light">
-              Traditional digital systems track activity — but rarely verify real-world impact. PORA is a protocol layer that bridges this gap. It provides a structured, verifiable, and transparent way to record that a real action occurred, was validated, and is now permanently part of the public record.
-            </p>
-            <p className="text-[15px] text-ink-secondary leading-[1.75] mb-5 font-light">
-              The protocol does not create value through speculation. It creates value by making real-world impact legible, auditable, and permanent. Any organization, individual, or system that performs verifiable humanitarian actions can participate.
-            </p>
-            <p className="text-[15px] text-ink-secondary leading-[1.75] mb-8 font-light">
-              The design is intentionally minimal. PORA defines what makes an action valid, how it is verified, and how it is recorded. Everything else is left to implementations — which we call <span className="inline-tag">Proof-of-X</span> modules.
-            </p>
+            <p className={`text-ink-secondary leading-[1.75] mb-5 font-light ${compactRu ? 'text-[14px]' : 'text-[15px]'}`}>{c.p1}</p>
+            <p className={`text-ink-secondary leading-[1.75] mb-5 font-light ${compactRu ? 'text-[14px]' : 'text-[15px]'}`}>{c.p2}</p>
+            <p className={`text-ink-secondary leading-[1.75] mb-8 font-light ${compactRu ? 'text-[14px]' : 'text-[15px]'}`}>{c.p3}</p>
 
-            {/* Component list */}
             <div className="rounded-xl border border-white/[0.07] overflow-hidden divide-y divide-white/[0.07]">
-              {COMPONENTS.map((c) => (
-                <div
-                  key={c.name}
-                  className="bg-surface hover:bg-surface-2 transition-colors px-6 py-5 flex items-center gap-4"
-                >
+              {c.components.map((item) => (
+                <div key={item.name} className="bg-surface hover:bg-surface-2 transition-colors px-6 py-5 flex items-center gap-4">
                   <div className="w-2 h-2 rounded-full bg-amber shrink-0" />
-                  <span className="font-display text-[14px] font-semibold text-ink-primary w-36 shrink-0">
-                    {c.name}
+                  <span className={`font-display font-semibold text-ink-primary shrink-0 ${compactRu ? 'text-[13px] w-40' : 'text-[14px] w-36'}`}>
+                    {item.name}
                   </span>
-                  <span className="text-[13px] text-ink-secondary">{c.desc}</span>
+                  <span className="text-[13px] text-ink-secondary leading-snug">{item.desc}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Architecture diagram */}
-          <div className="bg-surface border border-white/[0.07] rounded-2xl p-9">
-            <p className="font-mono-pora text-[10px] tracking-[0.14em] uppercase text-ink-tertiary mb-6">
-              // system architecture
-            </p>
+          <div className="bg-surface border border-white/[0.07] rounded-2xl p-8">
+            <p className="font-mono text-[10px] tracking-[0.14em] uppercase text-ink-tertiary mb-6">{c.architecture}</p>
 
             <div className="flex flex-col gap-1">
-              {ARCH_LAYERS.map((layer, i) => (
+              {c.layers.map((layer, i) => (
                 <div key={layer.label}>
-                  <div
-                    className={`rounded-lg border px-4 py-3.5 ${
-                      layer.accent
-                        ? 'border-amber/30 bg-amber-dim'
-                        : 'border-white/[0.07] bg-surface-2'
-                    }`}
-                  >
-                    <p className={`font-mono-pora text-[11px] tracking-[0.08em] mb-1 ${layer.accent ? 'text-amber' : 'text-ink-tertiary'}`}>
-                      {layer.label}
-                    </p>
+                  <div className={`rounded-lg border px-4 py-3.5 ${layer.accent ? 'border-amber/30 bg-amber-dim' : 'border-white/[0.07] bg-surface-2'}`}>
+                    <p className={`font-mono text-[11px] tracking-[0.08em] mb-1 ${layer.accent ? 'text-amber' : 'text-ink-tertiary'}`}>{layer.label}</p>
                     <p className="text-[12px] text-ink-tertiary">{layer.sub}</p>
                   </div>
-                  {i < ARCH_LAYERS.length - 1 && (
-                    <p className="text-center text-amber/40 text-lg py-0.5">↓</p>
-                  )}
+                  {i < c.layers.length - 1 && <div className="flex justify-center py-1.5"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 2v6M2.7 5.8 5 8.1l2.3-2.3" stroke="#E8855A" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" /></svg></div>}
                 </div>
               ))}
 
-              {/* Bottom: API / Portal / SDK */}
-              <p className="text-center text-amber/40 text-lg py-0.5">↓</p>
+              <div className="flex justify-center py-1.5"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 2v6M2.7 5.8 5 8.1l2.3-2.3" stroke="#E8855A" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" /></svg></div>
               <div className="grid grid-cols-3 gap-2">
-                {['API', 'Portal', 'SDK'].map((item) => (
-                  <div
-                    key={item}
-                    className="bg-surface-2 border border-white/[0.07] rounded-lg px-3 py-3 text-center"
-                  >
-                    <p className="font-mono-pora text-[11px] text-ink-tertiary mb-1">{item}</p>
-                    <p className="text-[11px] text-ink-tertiary opacity-60">
-                      {item === 'API' ? 'Public access' : item === 'Portal' ? 'Web interface' : 'Dev integration'}
-                    </p>
+                {[
+                  { title: 'API', sub: c.api },
+                  { title: 'Portal', sub: c.portal },
+                  { title: 'SDK', sub: c.sdk },
+                ].map((item) => (
+                  <div key={item.title} className="bg-surface-2 border border-white/[0.07] rounded-lg px-3 py-3 text-center">
+                    <p className="font-mono text-[11px] text-ink-tertiary mb-1">{item.title}</p>
+                    <p className="text-[11px] text-ink-tertiary opacity-60 leading-tight">{item.sub}</p>
                   </div>
                 ))}
               </div>

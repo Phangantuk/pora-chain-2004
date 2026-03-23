@@ -13,7 +13,7 @@ export default function MealAppPartnerPage({ params }: { params: { lang: string 
   const lp = (path: string) => `/${lang}${path}`
 
   const copy = {
-    tag: lang === 'ru' ? 'MEAL APP' : lang === 'es' ? 'MEAL APP' : 'MEAL APP',
+    tag: 'MEAL APP',
     title: lang === 'ru' ? 'Партнёрский кабинет' : lang === 'es' ? 'Panel de socios' : 'Partner workspace',
     desc:
       lang === 'ru'

@@ -3,6 +3,39 @@ import { SectionHeader, StatItem, Badge, Card } from '@/components/ui'
 import { type Lang } from '@/lib/i18n'
 import { getExtraT } from '@/lib/i18n/extra'
 
+type UseCaseIcon = 'meal' | 'shelter' | 'medicine' | 'education'
+
+function UseCaseGlyph({ icon }: { icon: UseCaseIcon }) {
+  if (icon === 'meal') {
+    return (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
+        <path d="M6 3v7M9 3v7M14 3v4a2 2 0 0 0 4 0V3M6 10v11M9 10v11M16 10v11" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+      </svg>
+    )
+  }
+  if (icon === 'shelter') {
+    return (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
+        <path d="M4 10 12 4l8 6v9a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1v-9Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+      </svg>
+    )
+  }
+  if (icon === 'medicine') {
+    return (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
+        <rect x="4" y="6" width="16" height="12" rx="2" stroke="currentColor" strokeWidth="1.4" />
+        <path d="M12 9v6M9 12h6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+      </svg>
+    )
+  }
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path d="M4 8.5 12 5l8 3.5-8 3.5-8-3.5Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+      <path d="M8.5 11.2V15c0 1.5 1.6 2.8 3.5 2.8s3.5-1.3 3.5-2.8v-3.8" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  )
+}
+
 export function HowItWorks({ lang = 'en' }: { lang?: Lang }) {
   const xt = getExtraT(lang)
   const s = xt.sections
@@ -61,7 +94,7 @@ export function UseCasesPreview({ lang = 'en' }: { lang?: Lang }) {
 
   const USE_CASES = [
     {
-      icon: '🍽',
+      icon: 'meal' as const,
       badge: 'live' as const,
       badgeTxt: uc.liveFirst,
       title: uc.mealTitle,
@@ -70,7 +103,7 @@ export function UseCasesPreview({ lang = 'en' }: { lang?: Lang }) {
       accent: true,
     },
     {
-      icon: '🏠',
+      icon: 'shelter' as const,
       badge: 'planned' as const,
       badgeTxt: uc.planned,
       title: uc.shelterTitle,
@@ -79,7 +112,7 @@ export function UseCasesPreview({ lang = 'en' }: { lang?: Lang }) {
       accent: false,
     },
     {
-      icon: '💊',
+      icon: 'medicine' as const,
       badge: 'planned' as const,
       badgeTxt: uc.planned,
       title: uc.medicineTitle,
@@ -88,7 +121,7 @@ export function UseCasesPreview({ lang = 'en' }: { lang?: Lang }) {
       accent: false,
     },
     {
-      icon: '📚',
+      icon: 'education' as const,
       badge: 'planned' as const,
       badgeTxt: uc.planned,
       title: uc.educationTitle,
@@ -105,8 +138,8 @@ export function UseCasesPreview({ lang = 'en' }: { lang?: Lang }) {
       <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-4">
         {USE_CASES.map((item) => (
           <Card key={item.title} accent={item.accent} hover className="p-9">
-            <div className="w-11 h-11 rounded-[10px] bg-amber-dim border border-amber/20 flex items-center justify-center text-[20px] mb-5">
-              {item.icon}
+            <div className="w-11 h-11 rounded-[10px] bg-amber-dim border border-amber/20 flex items-center justify-center text-amber mb-5">
+              <UseCaseGlyph icon={item.icon} />
             </div>
             <div className="mb-3">
               <Badge variant={item.badge}>{item.badgeTxt}</Badge>

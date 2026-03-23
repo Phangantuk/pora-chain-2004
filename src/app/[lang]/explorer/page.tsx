@@ -107,7 +107,7 @@ export default function ExplorerPage({ params }: { params: { lang: string } }) {
           <div className={['inline-flex items-center gap-2.5 mb-5 px-3.5 py-1.5 rounded-full border', DEMO_MODE ? 'border-[#F5C542]/25 bg-[#F5C542]/10' : 'border-[#4ECAA0]/25 bg-[#4ECAA0]/10'].join(' ')}>
             <PulseDot active={isLive} />
             <span className={['font-mono text-[11px] tracking-[0.1em] uppercase', DEMO_MODE ? 'text-[#F5C542]' : 'text-[#4ECAA0]'].join(' ')}>
-              {DEMO_MODE ? ex.demoMode : error ? ex.errorPrefix : `Live — ${ex.refresh.toLowerCase()} every 3s`}
+              {DEMO_MODE ? ex.demoMode : error ? ex.errorPrefix : `${t.common.live} (${ex.refresh.toLowerCase()} 3s)`}
             </span>
           </div>
           <h1 className="font-bold text-[clamp(32px,5vw,52px)] leading-[1.06] tracking-tight text-white mb-2">{ex.pageTitle}</h1>
@@ -157,6 +157,7 @@ export default function ExplorerPage({ params }: { params: { lang: string } }) {
             events={events}
             loading={loading}
             error={error}
+            lang={lang}
             labels={{
               colId:        ex.colId,
               colTime:      ex.colTime,

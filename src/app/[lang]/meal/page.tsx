@@ -4,6 +4,14 @@ import { getExtraT } from '@/lib/i18n/extra'
 import { REGIONS, formatUsd, MOCK_EVENTS } from '@/lib/meal/data'
 import { MealNav } from '@/components/meal/MealNav'
 
+function ArrowTiny() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
+      <path d="M2.5 6h7M6.2 2.8 9.4 6 6.2 9.2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
 export default function MealPage({ params }: { params: { lang: string } }) {
   const lang = isValidLang(params.lang) ? params.lang as Lang : 'en'
   const t = getT(lang)
@@ -47,7 +55,11 @@ export default function MealPage({ params }: { params: { lang: string } }) {
             {[m.flowDonate, m.flowRegion, m.flowEvent, m.flowTransparency].map((step, i, arr) => (
               <span key={step} className="flex items-center gap-3">
                 <span className="px-4 py-2 rounded-lg bg-[#0E0E0F] border border-white/[0.07] font-mono text-[12px] tracking-wide text-white/70">{step}</span>
-                {i < arr.length - 1 && <span className="text-[#E8855A]/40">→</span>}
+                {i < arr.length - 1 && (
+                  <span className="text-[#E8855A]/40 inline-flex items-center">
+                    <ArrowTiny />
+                  </span>
+                )}
               </span>
             ))}
           </div>
@@ -79,7 +91,10 @@ export default function MealPage({ params }: { params: { lang: string } }) {
               <p className="font-mono text-[10px] tracking-[0.14em] uppercase text-[#E8855A] mb-3">{xt.meal.howTag}</p>
               <h2 className="font-bold text-[clamp(24px,3vw,36px)] text-white">{m.howTitle}</h2>
             </div>
-            <Link href={lp('/meal/how-it-works')} className="font-mono text-[12px] text-white/30 hover:text-[#E8855A] transition-colors hidden sm:block">{xt.meal.howFullExplanation} →</Link>
+            <Link href={lp('/meal/how-it-works')} className="font-mono text-[12px] text-white/30 hover:text-[#E8855A] transition-colors hidden sm:inline-flex items-center gap-1.5">
+              <span>{xt.meal.howFullExplanation}</span>
+              <ArrowTiny />
+            </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {[
@@ -137,14 +152,18 @@ export default function MealPage({ params }: { params: { lang: string } }) {
                       <div className="h-full rounded-full bg-[#E8855A]" style={{ width: `${pct}%` }} />
                     </div>
                   </div>
-                  <p className="font-mono text-[10px] text-[#E8855A]/60 group-hover:text-[#E8855A] transition-colors">{m.viewRegion} →</p>
+                  <p className="font-mono text-[10px] text-[#E8855A]/60 group-hover:text-[#E8855A] transition-colors inline-flex items-center gap-1.5">
+                    <span>{m.viewRegion}</span>
+                    <ArrowTiny />
+                  </p>
                 </Link>
               )
             })}
           </div>
           <div className="mt-6 text-center">
             <Link href={lp('/meal/regions')} className="inline-flex items-center gap-2 font-mono text-[12px] text-white/35 hover:text-white/70 transition-colors border border-white/[0.07] hover:border-white/[0.15] px-5 py-2.5 rounded-lg">
-              {m.ctaRegions} - {xt.meal.allRegions} {REGIONS.length} →
+              <span>{m.ctaRegions} - {xt.meal.allRegions} {REGIONS.length}</span>
+              <ArrowTiny />
             </Link>
           </div>
         </div>
@@ -171,7 +190,8 @@ export default function MealPage({ params }: { params: { lang: string } }) {
                   ))}
                 </ul>
                 <Link href={lp('/meal/map')} className="inline-flex items-center gap-2 font-mono text-[12px] text-[#4ECAA0]/60 hover:text-[#4ECAA0] transition-colors">
-                  {xt.meal.mapPreviewCta} →
+                  <span>{xt.meal.mapPreviewCta}</span>
+                  <ArrowTiny />
                 </Link>
               </div>
               {/* Right: mini map viz */}
@@ -215,7 +235,7 @@ export default function MealPage({ params }: { params: { lang: string } }) {
           <div className="relative rounded-2xl overflow-hidden text-center px-8 py-16" style={{ background:'linear-gradient(#0C0C0E,#0C0C0E) padding-box, linear-gradient(135deg,rgba(232,133,90,0.3),transparent 55%,rgba(232,133,90,0.15)) border-box', border:'1px solid transparent' }}>
             <div className="absolute inset-0 pointer-events-none" style={{ background:'radial-gradient(ellipse at 50% 0%, rgba(232,133,90,0.07),transparent 60%)' }} />
             <div className="relative">
-              <p className="font-mono text-[10px] tracking-[0.14em] uppercase text-[#E8855A] mb-4">PORA × MEAL</p>
+              <p className="font-mono text-[10px] tracking-[0.14em] uppercase text-[#E8855A] mb-4">PORA / MEAL</p>
               <h2 className="font-bold text-[clamp(24px,3.5vw,40px)] text-white mb-4">{xt.meal.ctaTitle}</h2>
               <p className="text-[15px] text-white/40 max-w-md mx-auto mb-8 font-light">{xt.meal.ctaBody}</p>
               <div className="flex flex-wrap gap-3 justify-center">

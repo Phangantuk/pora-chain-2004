@@ -39,6 +39,7 @@ export function MealDashboardView({ lang, compact = false }: MealDashboardViewPr
   const t = getT(lang)
   const xt = getExtraT(lang)
   const m = t.meal
+  const compactRu = lang === 'ru'
   const lp = (path: string) => `/${lang}${path}`
   const s = MOCK_USER_SUMMARY
   const recentEvents = MOCK_EVENTS.filter((event) => event.verified).slice(0, 4)
@@ -47,7 +48,9 @@ export function MealDashboardView({ lang, compact = false }: MealDashboardViewPr
     <div className={compact ? 'px-6 lg:px-8 py-8' : 'max-w-6xl mx-auto px-6 py-12'}>
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-8">
         <div>
-          <p className="font-mono text-[10px] tracking-[0.14em] uppercase text-[#E8855A] mb-2">MEAL MVP</p>
+          <p className={compactRu ? 'font-mono text-[9.5px] tracking-[0.12em] uppercase text-[#E8855A] mb-2' : 'font-mono text-[10px] tracking-[0.14em] uppercase text-[#E8855A] mb-2'}>
+            {xt.meal.firstProductLive}
+          </p>
           <h1 className="font-bold text-[clamp(28px,4vw,40px)] tracking-tight text-white">{m.dashTitle}</h1>
           <p className="font-mono text-[11px] text-white/25 mt-1">{m.demoUser}</p>
         </div>
@@ -90,7 +93,7 @@ export function MealDashboardView({ lang, compact = false }: MealDashboardViewPr
               <div key={donation.id} className="px-5 py-4 flex items-center justify-between gap-3">
                 <div>
                   <p className="text-[13px] text-white/80">{donation.regionName}</p>
-                  <p className="font-mono text-[10px] text-white/25">{formatDate(donation.date)}</p>
+                  <p className="font-mono text-[10px] text-white/25">{formatDate(donation.date, lang)}</p>
                 </div>
                 <div className="text-right">
                   <p className="font-mono text-[14px] text-[#E8855A] font-semibold">{formatUsd(donation.amountUsd)}</p>
@@ -122,7 +125,7 @@ export function MealDashboardView({ lang, compact = false }: MealDashboardViewPr
                     {event.mealsCount} {m.meals.toLowerCase()}
                   </span>
                   <DotSeparator />
-                  <span>{timeAgo(event.date)}</span>
+                  <span>{timeAgo(event.date, lang)}</span>
                 </div>
               </div>
             ))}

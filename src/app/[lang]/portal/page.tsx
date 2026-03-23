@@ -136,37 +136,37 @@ export default function PortalPage({ params }: { params: { lang: string } }) {
 
   const MEAL_ROLE_PATHS = [
     {
-      label: lang === 'ru' ? 'Донор' : lang === 'es' ? 'Donante' : 'Donor',
+      label: lang === 'ru' ? '?????' : lang === 'es' ? 'Donante' : 'Donor',
       href: lp('/meal/donate'),
-      note: lang === 'ru' ? 'Направляет помощь в регион' : lang === 'es' ? 'Dirige apoyo por región' : 'Directs support by region',
+      note: lang === 'ru' ? '?????????? ?????? ? ??????' : lang === 'es' ? 'Dirige apoyo por regi?n' : 'Directs support by region',
     },
     {
-      label: lang === 'ru' ? 'Участник' : lang === 'es' ? 'Participante' : 'Participant',
+      label: lang === 'ru' ? '????????' : lang === 'es' ? 'Participante' : 'Participant',
       href: lp('/meal/app/participant'),
-      note: lang === 'ru' ? 'Фиксирует реальные события' : lang === 'es' ? 'Registra acciones reales' : 'Logs real events',
+      note: lang === 'ru' ? '????????? ???????? ???????' : lang === 'es' ? 'Registra acciones reales' : 'Logs real events',
     },
     {
-      label: lang === 'ru' ? 'Партнёр' : lang === 'es' ? 'Socio' : 'Partner',
+      label: lang === 'ru' ? '???????' : lang === 'es' ? 'Socio' : 'Partner',
       href: lp('/meal/app/partner'),
-      note: lang === 'ru' ? 'Координирует программу' : lang === 'es' ? 'Coordina programas' : 'Coordinates program flows',
+      note: lang === 'ru' ? '???????????? ?????????' : lang === 'es' ? 'Coordina programas' : 'Coordinates program flows',
     },
     {
-      label: lang === 'ru' ? 'Точка питания' : lang === 'es' ? 'Sede de comida' : 'Venue',
+      label: lang === 'ru' ? '????? ???????' : lang === 'es' ? 'Sede de comida' : 'Venue',
       href: lp('/meal/app/venue'),
-      note: lang === 'ru' ? 'Работает с выдачей и QR' : lang === 'es' ? 'Opera entregas y QR' : 'Runs serving and QR validation',
+      note: lang === 'ru' ? '???????? ? ??????? ? QR' : lang === 'es' ? 'Opera entregas y QR' : 'Runs serving and QR validation',
     },
   ]
 
   const MAP_PREVIEW_TITLE = lang === 'ru'
-    ? 'Будущая карта взаимодействия MEAL'
+    ? '??????? ????? ?????????????? MEAL'
     : lang === 'es'
-      ? 'Vista futura del mapa de interacción MEAL'
+      ? 'Vista futura del mapa de interacci?n MEAL'
       : 'Future MEAL interaction map'
 
   const MAP_PREVIEW_SUB = lang === 'ru'
-    ? 'PORA — протокол записей и верификации. MEAL — первый прикладной слой: карта потребности, адресная поддержка и прозрачность событий.'
+    ? 'PORA ? ???????? ??????? ? ???????????. MEAL ? ?????? ?????????? ????: ????? ???????????, ???????? ????????? ? ???????????? ???????.'
     : lang === 'es'
-      ? 'PORA es la capa de protocolo y verificación. MEAL es la primera capa aplicada: mapa de necesidad, apoyo dirigido y eventos transparentes.'
+      ? 'PORA es la capa de protocolo y verificaci?n. MEAL es la primera capa aplicada: mapa de necesidad, apoyo dirigido y eventos transparentes.'
       : 'PORA is the protocol and verification layer. MEAL is the first applied layer: need map, targeted support, and transparent events.'
 
   return (
