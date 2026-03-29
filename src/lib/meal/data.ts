@@ -18,6 +18,32 @@ export interface MealRegion {
   coords: { lat: number; lng: number }
 }
 
+export type SpiceLevel = 'none' | 'mild' | 'medium' | 'hot'
+
+export interface FeaturedMeal {
+  mealName: string
+  mealDescription: string
+  mealType: string
+  isVegetarian: boolean
+  spiceLevel: SpiceLevel
+  caloriesApprox: number
+  availableToday: boolean
+  portionLabel: string
+}
+
+export interface MealVenue {
+  slug: string
+  regionSlug: string
+  regionName: string
+  name: string
+  city: string
+  country: string
+  neighborhood: string
+  address: string
+  coords: { lat: number; lng: number }
+  featuredMeal: FeaturedMeal
+}
+
 export interface Donation {
   id: string
   regionSlug: string
@@ -187,6 +213,261 @@ export const REGIONS: MealRegion[] = [
   },
 ]
 
+export const VENUES: MealVenue[] = [
+  {
+    slug: 'nairobi-mathare-kitchen',
+    regionSlug: 'nairobi-east',
+    regionName: 'Nairobi East',
+    name: 'Mathare Community Kitchen',
+    city: 'Nairobi',
+    country: 'Kenya',
+    neighborhood: 'Mathare',
+    address: 'Mathare North Rd, Nairobi',
+    coords: { lat: -1.259, lng: 36.854 },
+    featuredMeal: {
+      mealName: 'Ugali with Bean Stew',
+      mealDescription: 'Steamed maize meal with slow-cooked red beans and seasonal greens.',
+      mealType: 'hot meal',
+      isVegetarian: true,
+      spiceLevel: 'mild',
+      caloriesApprox: 620,
+      availableToday: true,
+      portionLabel: '1 tray (520 g)',
+    },
+  },
+  {
+    slug: 'nairobi-eastlands-mobile',
+    regionSlug: 'nairobi-east',
+    regionName: 'Nairobi East',
+    name: 'Eastlands Mobile Point',
+    city: 'Nairobi',
+    country: 'Kenya',
+    neighborhood: 'Eastlands',
+    address: 'Outer Ring Rd, Nairobi',
+    coords: { lat: -1.286, lng: 36.896 },
+    featuredMeal: {
+      mealName: 'Fortified Maize Porridge',
+      mealDescription: 'Warm maize porridge with milk powder and groundnut blend for children and elders.',
+      mealType: 'porridge',
+      isVegetarian: true,
+      spiceLevel: 'none',
+      caloriesApprox: 410,
+      availableToday: true,
+      portionLabel: '1 cup (350 ml)',
+    },
+  },
+  {
+    slug: 'lahore-ravi-mobile',
+    regionSlug: 'lahore-south',
+    regionName: 'Lahore South',
+    name: 'Ravi Flood Relief Unit',
+    city: 'Lahore',
+    country: 'Pakistan',
+    neighborhood: 'Ravi sector',
+    address: 'Shahdara bypass service lot, Lahore',
+    coords: { lat: 31.585, lng: 74.292 },
+    featuredMeal: {
+      mealName: 'Lentil Rice Bowl',
+      mealDescription: 'Masoor dal with steamed rice and a small cucumber-onion salad.',
+      mealType: 'rice bowl',
+      isVegetarian: true,
+      spiceLevel: 'medium',
+      caloriesApprox: 560,
+      availableToday: true,
+      portionLabel: '1 bowl (480 g)',
+    },
+  },
+  {
+    slug: 'istanbul-sultanbeyli-canteen',
+    regionSlug: 'istanbul-migrant',
+    regionName: 'Istanbul Migrant District',
+    name: 'Sultanbeyli Solidarity Canteen',
+    city: 'Istanbul',
+    country: 'Turkey',
+    neighborhood: 'Sultanbeyli',
+    address: 'Fatih Blv 91, Sultanbeyli',
+    coords: { lat: 40.97, lng: 29.27 },
+    featuredMeal: {
+      mealName: 'Mercimek Soup Set',
+      mealDescription: 'Red lentil soup served with flatbread and a boiled egg.',
+      mealType: 'soup set',
+      isVegetarian: false,
+      spiceLevel: 'mild',
+      caloriesApprox: 500,
+      availableToday: true,
+      portionLabel: '1 set (450 g)',
+    },
+  },
+  {
+    slug: 'manila-tondo-center',
+    regionSlug: 'manila-barangay',
+    regionName: 'Manila Barangay 14',
+    name: 'Tondo Child Nutrition Hub',
+    city: 'Manila',
+    country: 'Philippines',
+    neighborhood: 'Tondo',
+    address: 'Barangay 14 covered court, Manila',
+    coords: { lat: 14.626, lng: 120.972 },
+    featuredMeal: {
+      mealName: 'Chicken Arroz Caldo',
+      mealDescription: 'Rice porridge with shredded chicken, ginger, and soft-boiled egg.',
+      mealType: 'porridge',
+      isVegetarian: false,
+      spiceLevel: 'none',
+      caloriesApprox: 470,
+      availableToday: true,
+      portionLabel: '1 bowl (430 g)',
+    },
+  },
+  {
+    slug: 'lagos-yaba-community',
+    regionSlug: 'lagos-mainland',
+    regionName: 'Lagos Mainland',
+    name: 'Yaba Community Kitchen',
+    city: 'Lagos',
+    country: 'Nigeria',
+    neighborhood: 'Yaba',
+    address: 'Herbert Macaulay Rd, Yaba',
+    coords: { lat: 6.515, lng: 3.372 },
+    featuredMeal: {
+      mealName: 'Jollof Rice with Beans',
+      mealDescription: 'Tomato jollof rice paired with black-eyed beans and cabbage slaw.',
+      mealType: 'rice plate',
+      isVegetarian: true,
+      spiceLevel: 'medium',
+      caloriesApprox: 640,
+      availableToday: true,
+      portionLabel: '1 plate (500 g)',
+    },
+  },
+  {
+    slug: 'lagos-mushin-family-kitchen',
+    regionSlug: 'lagos-mainland',
+    regionName: 'Lagos Mainland',
+    name: 'Mushin Family Support Kitchen',
+    city: 'Lagos',
+    country: 'Nigeria',
+    neighborhood: 'Mushin',
+    address: 'Agege Motor Rd, Mushin',
+    coords: { lat: 6.535, lng: 3.352 },
+    featuredMeal: {
+      mealName: 'Rice with Efo Riro',
+      mealDescription: 'Steamed rice with spinach stew and small protein chunks.',
+      mealType: 'stew plate',
+      isVegetarian: false,
+      spiceLevel: 'hot',
+      caloriesApprox: 610,
+      availableToday: true,
+      portionLabel: '1 plate (490 g)',
+    },
+  },
+  {
+    slug: 'berlin-neukolln-solidarity',
+    regionSlug: 'berlin-migrant',
+    regionName: 'Berlin Neukolln',
+    name: 'Neukolln Solidarity Kitchen',
+    city: 'Berlin',
+    country: 'Germany',
+    neighborhood: 'Neukolln',
+    address: 'Sonnenallee 115, Berlin',
+    coords: { lat: 52.473, lng: 13.445 },
+    featuredMeal: {
+      mealName: 'Vegetable Lentil Stew',
+      mealDescription: 'Hearty lentil stew with potatoes, carrots, and rye bread.',
+      mealType: 'stew set',
+      isVegetarian: true,
+      spiceLevel: 'none',
+      caloriesApprox: 530,
+      availableToday: true,
+      portionLabel: '1 bowl + bread (460 g)',
+    },
+  },
+  {
+    slug: 'cairo-manshiyat-kitchen-1',
+    regionSlug: 'cairo-informal',
+    regionName: 'Cairo Informal Settlements',
+    name: 'Manshiyat Naser Kitchen 1',
+    city: 'Cairo',
+    country: 'Egypt',
+    neighborhood: 'Manshiyat Naser',
+    address: 'Al Nasr St service lane, Cairo',
+    coords: { lat: 30.086, lng: 31.314 },
+    featuredMeal: {
+      mealName: 'Classic Koshari',
+      mealDescription: 'Rice, pasta, lentils, chickpeas, and tomato sauce with crispy onions.',
+      mealType: 'mixed bowl',
+      isVegetarian: true,
+      spiceLevel: 'mild',
+      caloriesApprox: 690,
+      availableToday: true,
+      portionLabel: '1 bowl (520 g)',
+    },
+  },
+  {
+    slug: 'cairo-manshiyat-kitchen-2',
+    regionSlug: 'cairo-informal',
+    regionName: 'Cairo Informal Settlements',
+    name: 'Manshiyat Naser Kitchen 2',
+    city: 'Cairo',
+    country: 'Egypt',
+    neighborhood: 'Manshiyat Naser',
+    address: 'El Mahjar community yard, Cairo',
+    coords: { lat: 30.072, lng: 31.302 },
+    featuredMeal: {
+      mealName: 'Ful Wrap Meal',
+      mealDescription: 'Fava bean mash in baladi bread with tomato-cucumber side.',
+      mealType: 'wrap set',
+      isVegetarian: true,
+      spiceLevel: 'none',
+      caloriesApprox: 520,
+      availableToday: true,
+      portionLabel: '1 wrap set (420 g)',
+    },
+  },
+  {
+    slug: 'saopaulo-zonaleste-coop',
+    regionSlug: 'sao-paulo-periphery',
+    regionName: 'Sao Paulo Periphery',
+    name: 'Zona Leste Cooperative Kitchen',
+    city: 'Sao Paulo',
+    country: 'Brazil',
+    neighborhood: 'Zona Leste',
+    address: 'Av. Mateo Bei 2200, Sao Paulo',
+    coords: { lat: -23.548, lng: -46.47 },
+    featuredMeal: {
+      mealName: 'Rice, Beans and Vegetables',
+      mealDescription: 'Brazilian-style rice and beans with pumpkin and braised cabbage.',
+      mealType: 'plate',
+      isVegetarian: true,
+      spiceLevel: 'none',
+      caloriesApprox: 580,
+      availableToday: true,
+      portionLabel: '1 plate (500 g)',
+    },
+  },
+  {
+    slug: 'saopaulo-grajau-kitchen',
+    regionSlug: 'sao-paulo-periphery',
+    regionName: 'Sao Paulo Periphery',
+    name: 'Grajau Family Kitchen',
+    city: 'Sao Paulo',
+    country: 'Brazil',
+    neighborhood: 'Grajau',
+    address: 'R. Dona Belmira Marin 9800, Sao Paulo',
+    coords: { lat: -23.787, lng: -46.697 },
+    featuredMeal: {
+      mealName: 'Chicken and Pumpkin Stew',
+      mealDescription: 'Slow-cooked chicken with pumpkin, cassava, and white rice.',
+      mealType: 'stew plate',
+      isVegetarian: false,
+      spiceLevel: 'mild',
+      caloriesApprox: 630,
+      availableToday: true,
+      portionLabel: '1 plate (510 g)',
+    },
+  },
+]
+
 export const MOCK_DONATIONS: Donation[] = [
   { id: 'd-001', regionSlug: 'nairobi-east', regionName: 'Nairobi East', amountUsd: 150, currency: 'USDT', date: '2026-03-20T09:15:00Z', status: 'confirmed', txHash: '0x3f8a...2c9e', donor: 'Anonymous' },
   { id: 'd-002', regionSlug: 'lahore-south', regionName: 'Lahore South', amountUsd: 80, currency: 'USDT', date: '2026-03-20T07:40:00Z', status: 'confirmed', txHash: '0xd12b...8f01', donor: 'Alex M.' },
@@ -222,6 +503,14 @@ export const MOCK_USER_DONATIONS: Donation[] = MOCK_DONATIONS.slice(0, 5)
 
 export function getRegionBySlug(slug: string): MealRegion | undefined {
   return REGIONS.find((region) => region.slug === slug)
+}
+
+export function getVenueBySlug(slug: string): MealVenue | undefined {
+  return VENUES.find((venue) => venue.slug === slug)
+}
+
+export function getVenuesByRegion(regionSlug: string): MealVenue[] {
+  return VENUES.filter((venue) => venue.regionSlug === regionSlug)
 }
 
 export function getProgressPct(region: MealRegion): number {

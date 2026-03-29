@@ -2,11 +2,30 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getT, isValidLang, type Lang } from '@/lib/i18n'
 import { getExtraT } from '@/lib/i18n/extra'
-import { getRegionBySlug, REGIONS, MOCK_EVENTS, MOCK_DONATIONS, formatUsd, getProgressPct, formatDate, timeAgo } from '@/lib/meal/data'
+import { getRegionBySlug, getVenuesByRegion, REGIONS, MOCK_EVENTS, MOCK_DONATIONS, formatUsd, getProgressPct, formatDate, timeAgo } from '@/lib/meal/data'
 import { MealNav } from '@/components/meal/MealNav'
 
 export async function generateStaticParams() {
   return REGIONS.map(r => ({ slug: r.slug }))
+}
+
+function spiceLabel(lang: Lang, spice: 'none' | 'mild' | 'medium' | 'hot'): string {
+  if (lang === 'ru') {
+    if (spice === 'none') return '\u043d\u0435\u0442'
+    if (spice === 'mild') return '\u043c\u044f\u0433\u043a\u0430\u044f'
+    if (spice === 'medium') return '\u0441\u0440\u0435\u0434\u043d\u044f\u044f'
+    return '\u043e\u0441\u0442\u0440\u0430\u044f'
+  }
+  if (lang === 'es') {
+    if (spice === 'none') return 'sin picante'
+    if (spice === 'mild') return 'suave'
+    if (spice === 'medium') return 'medio'
+    return 'fuerte'
+  }
+  if (spice === 'none') return 'none'
+  if (spice === 'mild') return 'mild'
+  if (spice === 'medium') return 'medium'
+  return 'hot'
 }
 
 export default function RegionPage({ params }: { params: { lang: string; slug: string } }) {
@@ -22,10 +41,22 @@ export default function RegionPage({ params }: { params: { lang: string; slug: s
 
   const events    = MOCK_EVENTS.filter(e => e.regionSlug === region.slug)
   const donations = MOCK_DONATIONS.filter(d => d.regionSlug === region.slug)
+  const venues = getVenuesByRegion(region.slug)
 
   const STATUS_COLORS: Record<string, string> = { urgent:'#F5C542', active:'#4ECAA0', funded:'#7BA7F5' }
   const statusColor = STATUS_COLORS[region.status]
   const statusLabel = { urgent: m.urgent, active: m.active, funded: m.funded }[region.status] ?? region.status
+  const x = {
+    nearbyVenues: lang === 'ru' ? '\u0411\u043b\u0438\u0437\u043a\u0438\u0435 \u0442\u043e\u0447\u043a\u0438 \u0432 \u0440\u0435\u0433\u0438\u043e\u043d\u0435' : lang === 'es' ? 'Sedes cercanas en la region' : 'Nearby venues in this region',
+    mealType: lang === 'ru' ? '\u0422\u0438\u043f \u0431\u043b\u044e\u0434\u0430' : lang === 'es' ? 'Tipo de comida' : 'Meal type',
+    vegetarian: lang === 'ru' ? '\u0412\u0435\u0433\u0435\u0442\u0430\u0440\u0438\u0430\u043d\u0441\u043a\u043e\u0435' : lang === 'es' ? 'Vegetariano' : 'Vegetarian',
+    spice: lang === 'ru' ? '\u041e\u0441\u0442\u0440\u043e\u0442\u0430' : lang === 'es' ? 'Picante' : 'Spice',
+    calories: lang === 'ru' ? '\u041a\u043a\u0430\u043b' : lang === 'es' ? 'kcal' : 'kcal',
+    portion: lang === 'ru' ? '\u041f\u043e\u0440\u0446\u0438\u044f' : lang === 'es' ? 'Porcion' : 'Portion',
+    openVenue: lang === 'ru' ? '\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0442\u043e\u0447\u043a\u0443' : lang === 'es' ? 'Abrir sede' : 'Open venue',
+    yes: lang === 'ru' ? '\u0434\u0430' : lang === 'es' ? 'si' : 'yes',
+    no: lang === 'ru' ? '\u043d\u0435\u0442' : lang === 'es' ? 'no' : 'no',
+  }
 
   return (
     <div className="bg-[#070707] text-white min-h-screen">
@@ -142,6 +173,42 @@ export default function RegionPage({ params }: { params: { lang: string; slug: s
               ))}
             </div>
           )}
+        </div>
+      </div>
+      <div className="max-w-5xl mx-auto px-6 pb-14">
+        <p className="font-mono text-[10px] tracking-[0.12em] uppercase text-white/25 mb-4">
+          {x.nearbyVenues} ({venues.length})
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {venues.map((venue) => (
+            <Link
+              key={venue.slug}
+              href={lp(`/meal/venues/${venue.slug}`)}
+              className="group bg-[#0C0C0E] border border-white/[0.07] rounded-2xl p-5 hover:border-white/[0.15] transition-colors no-underline"
+            >
+              <div className="flex items-start justify-between gap-3 mb-3">
+                <div>
+                  <p className="text-[14px] font-semibold text-white/85">{venue.name}</p>
+                  <p className="font-mono text-[10px] text-white/30">{venue.neighborhood}, {venue.city}</p>
+                </div>
+                <span className="font-mono text-[9px] px-2 py-0.5 rounded-md border border-[#4ECAA0]/30 text-[#4ECAA0] bg-[#4ECAA0]/10">
+                  {m.active}
+                </span>
+              </div>
+              <p className="text-[13px] text-white/80 mb-1.5">{venue.featuredMeal.mealName}</p>
+              <p className="text-[12px] text-white/40 leading-relaxed mb-3">{venue.featuredMeal.mealDescription}</p>
+              <div className="flex flex-wrap gap-2 font-mono text-[10px] text-white/35 mb-3">
+                <span className="px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.06]">{x.mealType}: {venue.featuredMeal.mealType}</span>
+                <span className="px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.06]">{x.vegetarian}: {venue.featuredMeal.isVegetarian ? x.yes : x.no}</span>
+                <span className="px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.06]">{x.spice}: {spiceLabel(lang, venue.featuredMeal.spiceLevel)}</span>
+                <span className="px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.06]">{x.calories}: {venue.featuredMeal.caloriesApprox}</span>
+                <span className="px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.06]">{x.portion}: {venue.featuredMeal.portionLabel}</span>
+              </div>
+              <p className="font-mono text-[11px] text-[#E8855A]/65 group-hover:text-[#E8855A] transition-colors">
+                {x.openVenue}
+              </p>
+            </Link>
+          ))}
         </div>
       </div>
     </div>
