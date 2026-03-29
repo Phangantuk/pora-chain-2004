@@ -244,6 +244,8 @@ export const FUNDING_POOL = {
 export const FUNDING_MODEL = {
   fundsInAdvance:
     'Funds are provided in advance by the funder and received by the Thai operating company as the official recipient.',
+  operatingChain:
+    'Operating chain: Funder/Donor -> System -> Venue -> Recipient -> Reporting.',
   payoutModel:
     'Confirmed issued meals are aggregated weekly. Venue payouts are calculated from confirmed meal issuance lines.',
   feeModel:
@@ -425,7 +427,7 @@ export const DOCUMENTS: FunderDocument[] = [
     id: 'doc-program-terms',
     title: 'Program Terms',
     summary:
-      'Defines funding intent, approved operating scope, reporting cadence, and responsibilities between funder and operating company.',
+      'Defines funding intent and the operating chain (Funder/Donor -> System -> Venue -> Recipient -> Reporting) with responsibilities for each stage.',
     updatedAt: '2026-03-20',
   },
   {
@@ -439,14 +441,14 @@ export const DOCUMENTS: FunderDocument[] = [
     id: 'doc-reporting-policy',
     title: 'Reporting Policy',
     summary:
-      'Sets statement schedule, transparency requirements, exception disclosures, and required narrative context for each reporting period.',
+      'Sets statement schedule, transparency requirements, exception disclosures, and narrative context across the full operating chain.',
     updatedAt: '2026-03-18',
   },
   {
     id: 'doc-venue-rules',
     title: 'Venue Participation Rules',
     summary:
-      'Specifies venue onboarding, service quality criteria, claim validation standards, and interruption handling expectations.',
+      'Specifies participating venue onboarding, service quality criteria, claim validation standards, and interruption handling expectations.',
     updatedAt: '2026-03-17',
   },
   {

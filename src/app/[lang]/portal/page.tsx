@@ -136,38 +136,38 @@ export default function PortalPage({ params }: { params: { lang: string } }) {
 
   const MEAL_ROLE_PATHS = [
     {
-      label: lang === 'ru' ? '?????' : lang === 'es' ? 'Donante' : 'Donor',
+      label: lang === 'ru' ? '\u0414\u043e\u043d\u043e\u0440' : lang === 'es' ? 'Donante' : 'Donor',
       href: lp('/meal/donate'),
-      note: lang === 'ru' ? '?????????? ?????? ? ??????' : lang === 'es' ? 'Dirige apoyo por regi?n' : 'Directs support by region',
+      note: lang === 'ru' ? '\u041d\u0430\u043f\u0440\u0430\u0432\u043b\u044f\u0435\u0442 \u043f\u043e\u0434\u0434\u0435\u0440\u0436\u043a\u0443 \u043f\u043e \u0440\u0435\u0433\u0438\u043e\u043d\u0430\u043c' : lang === 'es' ? 'Dirige apoyo por region' : 'Provides funding support by region',
     },
     {
-      label: lang === 'ru' ? '????????' : lang === 'es' ? 'Participante' : 'Participant',
-      href: lp('/meal/app/participant'),
-      note: lang === 'ru' ? '????????? ???????? ???????' : lang === 'es' ? 'Registra acciones reales' : 'Logs real events',
+      label: lang === 'ru' ? '\u0421\u0438\u0441\u0442\u0435\u043c\u0430' : lang === 'es' ? 'Sistema' : 'System',
+      href: lp('/meal/app/admin'),
+      note: lang === 'ru' ? '\u0424\u0438\u043a\u0441\u0438\u0440\u0443\u0435\u0442, \u0432\u0435\u0440\u0438\u0444\u0438\u0446\u0438\u0440\u0443\u0435\u0442 \u0438 \u0444\u043e\u0440\u043c\u0438\u0440\u0443\u0435\u0442 \u043e\u0442\u0447\u0435\u0442\u044b' : lang === 'es' ? 'Registra, verifica y reporta' : 'Records, verifies, and reports',
     },
     {
-      label: lang === 'ru' ? '???????' : lang === 'es' ? 'Socio' : 'Partner',
-      href: lp('/meal/app/partner'),
-      note: lang === 'ru' ? '???????????? ?????????' : lang === 'es' ? 'Coordina programas' : 'Coordinates program flows',
-    },
-    {
-      label: lang === 'ru' ? '????? ???????' : lang === 'es' ? 'Sede de comida' : 'Venue',
+      label: lang === 'ru' ? '\u041e\u043f\u0435\u0440\u0430\u0442\u043e\u0440 \u0442\u043e\u0447\u043a\u0438' : lang === 'es' ? 'Operador de sede' : 'Venue Operator',
       href: lp('/meal/app/venue'),
-      note: lang === 'ru' ? '???????? ? ??????? ? QR' : lang === 'es' ? 'Opera entregas y QR' : 'Runs serving and QR validation',
+      note: lang === 'ru' ? '\u041e\u0440\u0433\u0430\u043d\u0438\u0437\u0443\u0435\u0442 \u0432\u044b\u0434\u0430\u0447\u0443 \u043f\u0438\u0442\u0430\u043d\u0438\u044f \u043d\u0430 \u0442\u043e\u0447\u043a\u0435' : lang === 'es' ? 'Distribuye comidas en la sede' : 'Distributes meals at the venue',
+    },
+    {
+      label: lang === 'ru' ? '\u041f\u043e\u043b\u0443\u0447\u0430\u0442\u0435\u043b\u044c' : lang === 'es' ? 'Receptor' : 'Recipient',
+      href: lp('/meal/app/participant'),
+      note: lang === 'ru' ? '\u041f\u043e\u043b\u0443\u0447\u0430\u0435\u0442 \u043f\u043e\u043c\u043e\u0449\u044c \u0438 \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0430\u0435\u0442 \u0432\u044b\u0434\u0430\u0447\u0443' : lang === 'es' ? 'Recibe apoyo y confirma entrega' : 'Receives support and confirms service',
     },
   ]
 
   const MAP_PREVIEW_TITLE = lang === 'ru'
-    ? '??????? ????? ?????????????? MEAL'
+    ? '\u0411\u0443\u0434\u0443\u0449\u0430\u044f \u043c\u043e\u0434\u0435\u043b\u044c \u0432\u0437\u0430\u0438\u043c\u043e\u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044f MEAL'
     : lang === 'es'
-      ? 'Vista futura del mapa de interacci?n MEAL'
+      ? 'Vista futura del mapa de interaccion MEAL'
       : 'Future MEAL interaction map'
 
   const MAP_PREVIEW_SUB = lang === 'ru'
-    ? 'PORA ? ???????? ??????? ? ???????????. MEAL ? ?????? ?????????? ????: ????? ???????????, ???????? ????????? ? ???????????? ???????.'
+    ? '\u041c\u043e\u0434\u0435\u043b\u044c MEAL: \u0414\u043e\u043d\u043e\u0440 \u2192 \u0421\u0438\u0441\u0442\u0435\u043c\u0430 \u2192 \u0422\u043e\u0447\u043a\u0430 \u0432\u044b\u0434\u0430\u0447\u0438 \u2192 \u041f\u043e\u043b\u0443\u0447\u0430\u0442\u0435\u043b\u044c. \u0421\u0438\u0441\u0442\u0435\u043c\u0430 \u043f\u0440\u043e\u0437\u0440\u0430\u0447\u043d\u043e \u0444\u0438\u043a\u0441\u0438\u0440\u0443\u0435\u0442, \u0432\u0435\u0440\u0438\u0444\u0438\u0446\u0438\u0440\u0443\u0435\u0442 \u0438 \u043e\u0442\u0447\u0438\u0442\u044b\u0432\u0430\u0435\u0442\u0441\u044f \u043f\u043e \u0441\u043e\u0431\u044b\u0442\u0438\u044f\u043c.'
     : lang === 'es'
-      ? 'PORA es la capa de protocolo y verificaci?n. MEAL es la primera capa aplicada: mapa de necesidad, apoyo dirigido y eventos transparentes.'
-      : 'PORA is the protocol and verification layer. MEAL is the first applied layer: need map, targeted support, and transparent events.'
+      ? 'Modelo MEAL: Donante -> Sistema -> Sede -> Receptor. El sistema registra, verifica y reporta cada etapa.'
+      : 'MEAL model: Donor -> System -> Venue -> Recipient. The system records, verifies, and reports each stage.'
 
   return (
     <>

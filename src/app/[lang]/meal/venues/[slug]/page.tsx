@@ -53,7 +53,7 @@ export default function MealVenueDetailPage({ params }: { params: { lang: string
     address: lang === 'ru' ? '\u0410\u0434\u0440\u0435\u0441' : lang === 'es' ? 'Direccion' : 'Address',
     region: lang === 'ru' ? '\u0420\u0435\u0433\u0438\u043e\u043d' : lang === 'es' ? 'Region' : 'Region',
     recipientFlow: lang === 'ru' ? '\u041f\u043e\u0442\u043e\u043a \u043f\u043e\u043b\u0443\u0447\u0430\u0442\u0435\u043b\u044f' : lang === 'es' ? 'Flujo de receptor' : 'Recipient flow',
-    donorFlow: lang === 'ru' ? '\u0412\u0438\u0434 \u0434\u043b\u044f \u0434\u043e\u043d\u043e\u0440\u0430' : lang === 'es' ? 'Vista donante' : 'Donor impact view',
+    operationsFlow: lang === 'ru' ? '\u0421\u0438\u0441\u0442\u0435\u043c\u043d\u044b\u0439 \u043e\u043f\u0435\u0440\u0430\u0446\u0438\u043e\u043d\u043d\u044b\u0439 \u0432\u0438\u0434' : lang === 'es' ? 'Vista de operaciones' : 'System operations view',
     venueFlow: lang === 'ru' ? '\u041a\u0430\u0431\u0438\u043d\u0435\u0442 \u0442\u043e\u0447\u043a\u0438' : lang === 'es' ? 'Panel de sede' : 'Venue workspace',
     backToMap: lang === 'ru' ? '\u041a \u043a\u0430\u0440\u0442\u0435' : lang === 'es' ? 'Volver al mapa' : 'Back to map',
   }
@@ -105,7 +105,7 @@ export default function MealVenueDetailPage({ params }: { params: { lang: string
             <p className="font-mono text-[10px] tracking-[0.12em] uppercase text-white/25 mb-3">MEAL APP</p>
             <div className="flex flex-col gap-2.5">
               <Link href={lp('/meal/app/participant')} className="text-[13px] text-white/65 hover:text-white/90 transition-colors">{x.recipientFlow}</Link>
-              <Link href={lp('/meal/app/partner')} className="text-[13px] text-white/65 hover:text-white/90 transition-colors">{x.donorFlow}</Link>
+              <Link href={lp('/meal/app/partner')} className="text-[13px] text-white/65 hover:text-white/90 transition-colors">{x.operationsFlow}</Link>
               <Link href={lp('/meal/app/venue')} className="text-[13px] text-white/65 hover:text-white/90 transition-colors">{x.venueFlow}</Link>
             </div>
           </div>

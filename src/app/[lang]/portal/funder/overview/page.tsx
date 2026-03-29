@@ -72,6 +72,7 @@ export default function FunderOverviewPage({ params }: { params: { lang: string 
         <div className="bg-[#0C0C0E] border border-white/[0.07] rounded-2xl p-5">
           <p className="font-mono text-[10px] tracking-[0.12em] uppercase text-[#E8855A] mb-3">{x.explanation}</p>
           <p className="text-[13px] text-white/65 leading-relaxed mb-2">{FUNDING_MODEL.fundsInAdvance}</p>
+          <p className="text-[13px] text-white/65 leading-relaxed mb-2">{FUNDING_MODEL.operatingChain}</p>
           <p className="text-[13px] text-white/65 leading-relaxed mb-2">{FUNDING_MODEL.payoutModel}</p>
           <p className="text-[13px] text-white/65 leading-relaxed mb-2">{FUNDING_MODEL.feeModel}</p>
           <p className="text-[13px] text-white/65 leading-relaxed">{FUNDING_MODEL.balanceModel}</p>

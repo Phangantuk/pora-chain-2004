@@ -49,7 +49,7 @@ export default function FunderLayout({
           </div>
           <div className="rounded-xl border border-white/[0.06] bg-white/[0.01] px-4 py-3 text-white/65">
             <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-white/25 block mb-1">{c.thaiRecipient}</span>
-            {FUNDING_MODEL.payoutModel}
+            {FUNDING_MODEL.operatingChain}
           </div>
           <div className="rounded-xl border border-white/[0.06] bg-white/[0.01] px-4 py-3 text-white/65">
             <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-white/25 block mb-1">{c.operationalFeeLabel}</span>

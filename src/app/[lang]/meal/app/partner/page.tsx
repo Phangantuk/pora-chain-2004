@@ -11,23 +11,23 @@ function estimatedMealsPerWeek(caloriesApprox: number): number {
 
 export async function generateMetadata({ params }: { params: { lang: string } }): Promise<Metadata> {
   const lang = isValidLang(params.lang) ? (params.lang as Lang) : 'en'
-  const title = lang === 'ru' ? 'MEAL: \u041f\u0430\u0440\u0442\u043d\u0435\u0440\u0441\u043a\u0438\u0439 \u043a\u0430\u0431\u0438\u043d\u0435\u0442' : lang === 'es' ? 'MEAL: Panel de socios' : 'MEAL: Partner workspace'
+  const title = lang === 'ru' ? 'MEAL: \u0421\u0438\u0441\u0442\u0435\u043c\u043d\u044b\u0435 \u043e\u043f\u0435\u0440\u0430\u0446\u0438\u0438' : lang === 'es' ? 'MEAL: Operaciones del sistema' : 'MEAL: System operations workspace'
   return { title, description: title }
 }
 
-export default function MealAppPartnerPage({ params }: { params: { lang: string } }) {
+export default function MealAppOperationsPage({ params }: { params: { lang: string } }) {
   const lang = isValidLang(params.lang) ? (params.lang as Lang) : 'en'
   const lp = (path: string) => `/${lang}${path}`
 
   const x = {
     tag: 'MEAL APP',
-    title: lang === 'ru' ? '\u041f\u0430\u0440\u0442\u043d\u0435\u0440\u0441\u043a\u0438\u0439 \u043a\u0430\u0431\u0438\u043d\u0435\u0442' : lang === 'es' ? 'Panel de socios' : 'Partner workspace',
+    title: lang === 'ru' ? '\u0421\u0438\u0441\u0442\u0435\u043c\u043d\u044b\u0435 \u043e\u043f\u0435\u0440\u0430\u0446\u0438\u0438' : lang === 'es' ? 'Operaciones del sistema' : 'System operations workspace',
     desc:
       lang === 'ru'
-        ? '\u041e\u0431\u0437\u043e\u0440 \u0442\u043e\u0447\u0435\u043a \u0438 \u0438\u0445 \u043e\u0441\u043d\u043e\u0432\u043d\u044b\u0445 \u0431\u043b\u044e\u0434 \u0434\u043b\u044f \u0434\u043e\u043d\u043e\u0440\u0441\u043a\u043e\u0439 \u043e\u0446\u0435\u043d\u043a\u0438 \u0432\u043b\u0438\u044f\u043d\u0438\u044f.'
-        : lang === 'es'
-          ? 'Vista de sedes y comidas principales para monitorear impacto de apoyo.'
-          : 'View of venues and their primary meals for donor impact monitoring.',
+        ? '\u041e\u043f\u0435\u0440\u0430\u0446\u0438\u043e\u043d\u043d\u044b\u0439 \u0432\u0438\u0434 \u0441\u0438\u0441\u0442\u0435\u043c\u044b: \u043a\u0430\u043a \u0434\u043e\u043d\u043e\u0440\u0441\u043a\u0438\u0435 \u0441\u0440\u0435\u0434\u0441\u0442\u0432\u0430 \u043f\u0440\u043e\u0445\u043e\u0434\u044f\u0442 \u0447\u0435\u0440\u0435\u0437 \u0441\u0438\u0441\u0442\u0435\u043c\u0443 \u043a \u0442\u043e\u0447\u043a\u0430\u043c \u0438 \u043f\u043e\u043b\u0443\u0447\u0430\u0442\u0435\u043b\u044f\u043c.'
+      : lang === 'es'
+          ? 'Vista operativa: como el sistema enruta fondos a sedes y confirma entregas de comidas.'
+          : 'Operations view: how the system routes funds to venues and confirms meal distribution.',
     impactView: lang === 'ru' ? '\u0412\u043b\u0438\u044f\u043d\u0438\u0435 \u043f\u043e \u0442\u043e\u0447\u043a\u0430\u043c' : lang === 'es' ? 'Impacto por sede' : 'Impact by venue',
     venue: lang === 'ru' ? '\u0422\u043e\u0447\u043a\u0430' : lang === 'es' ? 'Sede' : 'Venue',
     meal: lang === 'ru' ? '\u0411\u043b\u044e\u0434\u043e' : lang === 'es' ? 'Comida' : 'Featured meal',
