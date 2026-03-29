@@ -13,10 +13,17 @@ export default function PortalLayout({
   const lang = isValidLang(params.lang) ? (params.lang as Lang) : 'en'
   const xt = getExtraT(lang)
   const lp = (path: string) => `/${params.lang}${path}`
+  const funderLabel =
+    lang === 'ru'
+      ? '\u041a\u0430\u0431\u0438\u043d\u0435\u0442 \u0444\u043e\u043d\u0434\u0430'
+      : lang === 'es'
+        ? 'Cabinete financiador'
+        : 'Funder Cabinet'
   const sidebarLinks = [
     { label: xt.portalLayout.dashboard, href: lp('/portal/dashboard') },
     { label: xt.portalLayout.validator, href: lp('/portal/validator') },
     { label: xt.portalLayout.organization, href: lp('/portal/org') },
+    { label: funderLabel, href: lp('/portal/funder/overview') },
     { label: xt.portalLayout.mealDashboard, href: lp('/meal/app/dashboard') },
     { label: xt.portalLayout.backToSite, href: lp('/') },
   ]
@@ -38,7 +45,7 @@ export default function PortalLayout({
             <Link
               key={link.href}
               href={link.href}
-              className="px-3 py-2 rounded-lg text-[13px] text-ink-secondary hover:text-ink-primary hover:bg-white/[0.05] transition-colors"
+              className="px-3 py-2 rounded-lg text-[13px] text-ink-secondary hover:text-ink-primary hover:bg-white/[0.05] transition-colors leading-snug break-words"
             >
               {link.label}
             </Link>
