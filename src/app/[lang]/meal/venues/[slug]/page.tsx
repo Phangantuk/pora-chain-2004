@@ -105,7 +105,7 @@ export default function MealVenueDetailPage({ params }: { params: { lang: string
             <p className="font-mono text-[10px] tracking-[0.12em] uppercase text-white/25 mb-3">MEAL APP</p>
             <div className="flex flex-col gap-2.5">
               <Link href={lp('/meal/app/participant')} className="text-[13px] text-white/65 hover:text-white/90 transition-colors">{x.recipientFlow}</Link>
-              <Link href={lp('/meal/app/partner')} className="text-[13px] text-white/65 hover:text-white/90 transition-colors">{x.operationsFlow}</Link>
+              <Link href={lp('/meal/app/operations')} className="text-[13px] text-white/65 hover:text-white/90 transition-colors">{x.operationsFlow}</Link>
               <Link href={lp('/meal/app/venue')} className="text-[13px] text-white/65 hover:text-white/90 transition-colors">{x.venueFlow}</Link>
             </div>
           </div>

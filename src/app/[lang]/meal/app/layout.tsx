@@ -96,7 +96,7 @@ export default function MealAppLayout({
     { label: m.navRegions, href: lp('/meal/app/regions'), kind: 'regions' as const },
     { label: labels.profile, href: lp('/meal/app/profile'), kind: 'profile' as const },
     { label: m.adminTitle, href: lp('/meal/app/admin'), kind: 'admin' as const },
-    { label: labels.operations, href: lp('/meal/app/partner'), kind: 'operations' as const },
+    { label: labels.operations, href: lp('/meal/app/operations'), kind: 'operations' as const },
     { label: labels.venue, href: lp('/meal/app/venue'), kind: 'venue' as const },
     { label: labels.participant, href: lp('/meal/app/participant'), kind: 'participant' as const },
   ]

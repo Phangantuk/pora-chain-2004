@@ -146,9 +146,9 @@ export default function PortalPage({ params }: { params: { lang: string } }) {
       note: lang === 'ru' ? '\u0424\u0438\u043a\u0441\u0438\u0440\u0443\u0435\u0442, \u0432\u0435\u0440\u0438\u0444\u0438\u0446\u0438\u0440\u0443\u0435\u0442 \u0438 \u0444\u043e\u0440\u043c\u0438\u0440\u0443\u0435\u0442 \u043e\u0442\u0447\u0435\u0442\u044b' : lang === 'es' ? 'Registra, verifica y reporta' : 'Records, verifies, and reports',
     },
     {
-      label: lang === 'ru' ? '\u041e\u043f\u0435\u0440\u0430\u0442\u043e\u0440 \u0442\u043e\u0447\u043a\u0438' : lang === 'es' ? 'Operador de sede' : 'Venue Operator',
+      label: lang === 'ru' ? '\u0422\u043e\u0447\u043a\u0430 \u0432\u044b\u0434\u0430\u0447\u0438' : lang === 'es' ? 'Sede participante' : 'Participating Venue',
       href: lp('/meal/app/venue'),
-      note: lang === 'ru' ? '\u041e\u0440\u0433\u0430\u043d\u0438\u0437\u0443\u0435\u0442 \u0432\u044b\u0434\u0430\u0447\u0443 \u043f\u0438\u0442\u0430\u043d\u0438\u044f \u043d\u0430 \u0442\u043e\u0447\u043a\u0435' : lang === 'es' ? 'Distribuye comidas en la sede' : 'Distributes meals at the venue',
+      note: lang === 'ru' ? '\u0420\u0430\u0441\u043f\u0440\u0435\u0434\u0435\u043b\u044f\u0435\u0442 \u043f\u0438\u0442\u0430\u043d\u0438\u0435 \u043f\u043e \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u043d\u044b\u043c \u0432\u044b\u0434\u0430\u0447\u0430\u043c' : lang === 'es' ? 'Distribuye comidas segun entregas confirmadas' : 'Distributes meals by confirmed issuance',
     },
     {
       label: lang === 'ru' ? '\u041f\u043e\u043b\u0443\u0447\u0430\u0442\u0435\u043b\u044c' : lang === 'es' ? 'Receptor' : 'Recipient',
