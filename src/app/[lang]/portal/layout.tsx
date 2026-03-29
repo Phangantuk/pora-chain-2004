@@ -19,10 +19,16 @@ export default function PortalLayout({
       : lang === 'es'
         ? 'Cabinete financiador'
         : 'Funder Cabinet'
+  const venuesLabel =
+    lang === 'ru'
+      ? '\u0418\u043d\u0442\u0435\u0433\u0440\u0430\u0446\u0438\u044f \u0442\u043e\u0447\u0435\u043a'
+      : lang === 'es'
+        ? 'Integracion de sedes'
+        : 'Venue Integration'
   const sidebarLinks = [
     { label: xt.portalLayout.dashboard, href: lp('/portal/dashboard') },
     { label: xt.portalLayout.validator, href: lp('/portal/validator') },
-    { label: xt.portalLayout.organization, href: lp('/portal/org') },
+    { label: venuesLabel, href: lp('/portal/venues/overview') },
     { label: funderLabel, href: lp('/portal/funder/overview') },
     { label: xt.portalLayout.mealDashboard, href: lp('/meal/app/dashboard') },
     { label: xt.portalLayout.backToSite, href: lp('/') },

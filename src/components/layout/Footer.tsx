@@ -22,6 +22,12 @@ export function Footer({ lang: langProp }: FooterProps = {}) {
   const xt = getExtraT(lang)
   const compactRu = lang === 'ru'
   const lp = (p: string) => `/${lang}${p}`
+  const venuesLabel =
+    lang === 'ru'
+      ? '\u0418\u043d\u0442\u0435\u0433\u0440\u0430\u0446\u0438\u044f \u0442\u043e\u0447\u0435\u043a'
+      : lang === 'es'
+        ? 'Integracion de sedes'
+        : 'Venue Integration'
 
   const FOOTER_LINKS = {
     [xt.footer.categoryProtocol]: [
@@ -40,7 +46,7 @@ export function Footer({ lang: langProp }: FooterProps = {}) {
       { label: xt.footer.enterPortal,    href: lp('/portal') },
       { label: xt.footer.transparency,   href: lp('/transparency') },
       { label: xt.footer.validatorAccess, href: lp('/portal/validator') },
-      { label: xt.footer.organizations,  href: lp('/portal/org') },
+      { label: venuesLabel, href: lp('/portal/venues/overview') },
     ],
     [xt.footer.categoryMore]: [
       { label: xt.footer.developers, href: lp('/developers') },

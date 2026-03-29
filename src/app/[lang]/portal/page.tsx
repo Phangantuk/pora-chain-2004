@@ -72,6 +72,14 @@ export default function PortalPage({ params }: { params: { lang: string } }) {
   const p  = t.portal
   const lp = (path: string) => `/${lang}${path}`
   const compactRu = lang === 'ru'
+  const venueRoleEyebrow = lang === 'ru' ? '\u0422\u043e\u0447\u043a\u0430 \u0432 \u0441\u0438\u0441\u0442\u0435\u043c\u0435' : lang === 'es' ? 'Sede en el sistema' : 'Venue Layer'
+  const venueRoleTitle = lang === 'ru' ? '\u0422\u043e\u0447\u043a\u0430 \u0432\u044b\u0434\u0430\u0447\u0438' : lang === 'es' ? 'Sede participante' : 'Participating Venue'
+  const venueRoleDesc = lang === 'ru'
+    ? '\u0414\u0435\u0439\u0441\u0442\u0432\u0443\u044e\u0449\u0435\u0435 \u043a\u0430\u0444\u0435/\u043a\u0443\u0445\u043d\u044f \u043f\u043e\u0434\u043a\u043b\u044e\u0447\u0430\u0435\u0442\u0441\u044f \u043a MEAL, \u043f\u043e\u0434\u0442\u0432. \u0432\u044b\u0434\u0430\u0447\u0443 \u0438 \u0432\u0435\u0434\u0435\u0442 \u043f\u0440\u043e\u0437\u0440\u0430\u0447\u043d\u044b\u0439 \u0440\u0430\u0441\u0447\u0435\u0442.'
+    : lang === 'es'
+      ? 'Una sede existente se integra en MEAL, confirma entregas y opera con liquidaciones semanales.'
+      : 'An existing restaurant or meal point joins MEAL, confirms distribution, and works through transparent weekly settlements.'
+  const venueRoleCta = lang === 'ru' ? '\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0438\u043d\u0442\u0435\u0433\u0440\u0430\u0446\u0438\u044e \u0442\u043e\u0447\u0435\u043a' : lang === 'es' ? 'Abrir integracion de sedes' : 'Open Venue Integration'
 
   const ROLES = [
     {
@@ -98,11 +106,11 @@ export default function PortalPage({ params }: { params: { lang: string } }) {
     },
     {
       Illus:   IllustrationOrganization,
-      eyebrow: p.orgEyebrow,
-      title:   h.roleOrg,
-      desc:    p.orgDesc,
-      href:    lp('/portal/org'),
-      cta:     p.orgCta,
+      eyebrow: venueRoleEyebrow,
+      title:   venueRoleTitle,
+      desc:    venueRoleDesc,
+      href:    lp('/portal/venues/overview'),
+      cta:     venueRoleCta,
       primary: false,
       meta:    [p.orgMeta1, p.orgMeta2, p.orgMeta3],
       iconIds: ['building', 'box', 'key'] as const,
